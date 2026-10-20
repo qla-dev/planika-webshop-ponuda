@@ -20,3 +20,7 @@ npm run build
 Ponuda se oslanja na javno vidljive karakteristike postojećeg webshopa: širok asortiman za žene, muškarce i djecu, više brendova, kategorije i filtere, dostupnost u poslovnicama, Planika Club, dostavu i zamjenu. Predlaže rekonstrukciju kroz brže otkrivanje proizvoda, omnichannel provjeru zalihe i AI asistenta za odabir modela i veličine.
 
 Svi primjeri proizvoda, statusa i odgovora asistenta u ovoj prezentaciji su ilustrativni.
+
+## Vizuelna referenca
+
+U ponudi su korišteni javno dostupni Planika.ba materijali, isključivo kao vizuelna referenca za prezentaciju klijentu: kampanjske fotografije i fotografije artikala nalaze se u `assets/planika/`. Konačna implementacija treba koristiti odobrene kampanjske materijale, aktuelni katalog i brend-smjernice Planike.

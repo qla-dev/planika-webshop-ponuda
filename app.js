@@ -56,7 +56,7 @@ if (heroScene && !window.matchMedia('(prefers-reduced-motion: reduce)').matches)
   const key = new THREE.DirectionalLight(0xffffff, 4.5); key.position.set(4, 6, 5); scene.add(key);
   const rim = new THREE.DirectionalLight(0xff4050, 4); rim.position.set(-5, 2, -3); scene.add(rim);
   const floor = new THREE.Mesh(new THREE.CircleGeometry(2.65, 64), new THREE.MeshBasicMaterial({ color: 0xe1252c, transparent: true, opacity: 0.32 }));
-  floor.rotation.x = -Math.PI / 2; floor.position.y = -1.65; group.add(floor);
+  floor.rotation.x = -Math.PI / 2; floor.position.y = -1.65; scene.add(floor);
   const loader = new GLTFLoader();
   loader.load(shoeModelUrl, gltf => {
     const shoe = gltf.scene;

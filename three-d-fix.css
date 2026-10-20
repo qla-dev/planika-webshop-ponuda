@@ -1,0 +1,5 @@
+/* Avoid experimental CSS math: JavaScript supplies each depth angle directly. */
+.campaign-plane{transform:rotateY(var(--tilt-y-soft)) rotateX(var(--tilt-x-soft)) translateZ(15px)}
+.product-plane{transform:rotateY(var(--tilt-y-product)) rotateX(var(--tilt-x-product)) translateZ(90px)}
+.fit-float{transform:translateZ(140px) rotateY(var(--tilt-y-float)) rotateX(var(--tilt-x-float))}
+.stock-float{transform:translateZ(165px) rotateY(var(--tilt-y-float)) rotateX(var(--tilt-x-float))}

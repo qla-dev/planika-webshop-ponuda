@@ -15,3 +15,21 @@ document.querySelectorAll('[data-prompt]').forEach(button => button.addEventList
 form.addEventListener('submit', event => { event.preventDefault(); const question = input.value.trim(); if (question) answer(question); });
 const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }), { threshold: .12 });
 document.querySelectorAll('.section, .reveal').forEach(el => observer.observe(el));
+
+// Lightweight 3D commerce scene: layered HTML moves with the pointer; no heavy WebGL runtime.
+const heroScene = document.querySelector('.hero-visual');
+if (heroScene) {
+  heroScene.classList.add('is-three-scene');
+  heroScene.insertAdjacentHTML('afterbegin', `<div class="three-grid"></div><div class="three-orb orb-back"></div><div class="three-orb orb-front"></div><div class="three-card campaign-plane"><img src="assets/planika/hero-new-collection.jpg" alt="Planika collection" /><span>NEW COLLECTION / 01</span></div><div class="three-card product-plane"><img src="assets/planika/product-ara.jpg" alt="Planika footwear" /><div><small>ARA / HIGH SOFT</small><b>Comfort in motion</b></div></div><div class="three-float fit-float"><b>AI FIT</b><span>Size without guessing</span></div><div class="three-float stock-float"><i></i><b>AVAILABLE</b><span>Check a nearby store</span></div><p class="three-hint">MOVE CURSOR <span>↗</span></p>`);
+  const setTilt = (x, y) => { heroScene.style.setProperty('--tilt-x-soft', `${x * .28 + 4}deg`); heroScene.style.setProperty('--tilt-y-soft', `${y * .28 - 14}deg`); heroScene.style.setProperty('--tilt-x-product', `${x * .7 - 7}deg`); heroScene.style.setProperty('--tilt-y-product', `${y * .7 + 12}deg`); heroScene.style.setProperty('--tilt-x-float', `${x * .9}deg`); heroScene.style.setProperty('--tilt-y-float', `${y * .9}deg`); };
+  const resetScene = () => setTilt(0, 0);
+  heroScene.addEventListener('pointermove', event => {
+    if (event.pointerType === 'touch') return;
+    const box = heroScene.getBoundingClientRect();
+    const x = (event.clientX - box.left) / box.width;
+    const y = (event.clientY - box.top) / box.height;
+    setTilt((0.5 - y) * 8, (x - 0.5) * 10);
+  });
+  heroScene.addEventListener('pointerleave', resetScene);
+  resetScene();
+}

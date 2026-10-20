@@ -20,6 +20,16 @@ form.addEventListener('submit', event => { event.preventDefault(); const questio
 const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }), { threshold: .12 });
 document.querySelectorAll('.section, .reveal').forEach(el => observer.observe(el));
 
+// The commerce showcase focuses on one webshop decision at a time, instead of showing every module at once.
+const commerceLab = document.querySelector('.commerce-lab');
+if (commerceLab) {
+  const panels = [...commerceLab.querySelectorAll('.lab-shop-grid > article')];
+  commerceLab.querySelector('.lab-top').insertAdjacentHTML('afterend', '<div class="lab-modes"><button class="active" data-commerce-mode="0">01 / PRETRAGA I FILTERI</button><button data-commerce-mode="1">02 / KATALOG I DETALJ</button><button data-commerce-mode="2">03 / CLUB I POVRATAK</button></div>');
+  const setCommerceMode = index => { panels.forEach((panel, panelIndex) => panel.classList.toggle('active-panel', panelIndex === index)); commerceLab.querySelectorAll('[data-commerce-mode]').forEach(button => button.classList.toggle('active', Number(button.dataset.commerceMode) === index)); };
+  commerceLab.querySelectorAll('[data-commerce-mode]').forEach(button => button.addEventListener('click', () => setCommerceMode(Number(button.dataset.commerceMode))));
+  setCommerceMode(0);
+}
+
 // Lightweight 3D commerce scene: layered HTML moves with the pointer; no heavy WebGL runtime.
 const heroScene = document.querySelector('.hero-visual');
 if (heroScene) {

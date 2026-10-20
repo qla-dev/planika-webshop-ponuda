@@ -8,6 +8,8 @@
 .hero-visual.has-webgl .three-float{z-index:9;transition:none}
 .hero-visual.has-webgl .fit-float{transform:translateZ(0) rotateY(0) rotateX(0)}
 .hero-visual.has-webgl .stock-float{transform:translateZ(0) rotateY(0) rotateX(0)}
+.hero-visual.has-webgl .stock-float{top:12%;right:5%;bottom:auto;z-index:12}
+.hero-visual.has-webgl .three-hint{display:none}
 .hero-visual.has-webgl .three-hint{z-index:10}
 .hero-visual.has-webgl .campaign-plane{animation:float-campaign 7.8s ease-in-out infinite}
 .hero-visual.has-webgl .product-plane{animation:float-product 6.4s ease-in-out infinite reverse}
@@ -20,4 +22,4 @@
 @keyframes float-stock{50%{transform:translate(5px,-4px)}}
 @keyframes float-orb{50%{transform:translate(-5px,-5px)}}
 @media (prefers-reduced-motion:reduce){.hero-visual.has-webgl .campaign-plane,.hero-visual.has-webgl .product-plane,.hero-visual.has-webgl .fit-float,.hero-visual.has-webgl .stock-float,.hero-visual.has-webgl .orb-front{animation:none}}
-@media(max-width:800px){.threejs-canvas{opacity:.9}.hero-visual.has-webgl .campaign-plane,.hero-visual.has-webgl .product-plane{opacity:.1}}
+@media(max-width:800px){.threejs-canvas{opacity:1}.hero-visual.has-webgl .campaign-plane,.hero-visual.has-webgl .product-plane{opacity:1}.hero-visual.has-webgl .stock-float{top:8%;right:5%;bottom:auto}}

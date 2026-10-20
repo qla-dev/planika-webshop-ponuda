@@ -32,6 +32,8 @@ if (commerceLab) {
   commerceLab.querySelector('.lab-top').insertAdjacentHTML('afterend', '<div class="lab-modes"><button class="active" data-commerce-mode="0">01 / PRETRAGA I FILTERI</button><button data-commerce-mode="1">02 / KATALOG I DETALJ</button><button data-commerce-mode="2">03 / CLUB I POVRATAK</button></div>');
   const setCommerceMode = index => { panels.forEach((panel, panelIndex) => panel.classList.toggle('active-panel', panelIndex === index)); commerceLab.querySelectorAll('[data-commerce-mode]').forEach(button => button.classList.toggle('active', Number(button.dataset.commerceMode) === index)); };
   commerceLab.querySelectorAll('[data-commerce-mode]').forEach(button => button.addEventListener('click', () => setCommerceMode(Number(button.dataset.commerceMode))));
+  const catalogProducts = commerceLab.querySelector('.catalog-products');
+  if (catalogProducts) catalogProducts.innerHTML = `<article class="catalog-item"><img src="assets/planika/products/gabor-womens.png" alt="Gabor model" /><small>GABOR / ŽENE</small><b>Udoban korak za grad</b><span>Dostupno online</span></article><article class="catalog-item"><img src="assets/planika/products/gant-womens.png" alt="Gant model" /><small>GANT / ŽENE</small><b>Stil koji prati ritam</b><span>Provjeri veličinu</span></article><article class="catalog-item"><img src="assets/planika/products/extr4-mens.png" alt="EXTR4 model" /><small>EXTR4 / MUŠKARCI</small><b>Podrška za svaki dan</b><span>AI Fit preporuka</span></article><article class="catalog-item"><img src="assets/planika/products/mexx-viper-tasty.png" alt="Mexx model" /><small>MEXX / ŽENE</small><b>Nova boja, isti komfor</b><span>U prodavnici danas</span></article>`;
   setCommerceMode(0);
 }
 

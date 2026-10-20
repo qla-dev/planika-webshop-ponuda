@@ -1,8 +1,8 @@
 /* One explicit UI layer: four visible, flat cards above the WebGL shoe scene. */
 .hero-visual.has-webgl .scene-ui{position:absolute;inset:0;z-index:20;pointer-events:none}
 .hero-visual.has-webgl .scene-ui .three-card,.hero-visual.has-webgl .scene-ui .three-float{display:block;position:absolute;opacity:1;transform:none;box-shadow:0 18px 40px #0004;animation:scene-card-in .7s cubic-bezier(.2,.8,.2,1) both}
-.hero-visual.has-webgl .scene-ui .campaign-plane{width:28%;height:31%;top:auto;right:5%;bottom:8%;z-index:1;animation-delay:.08s}
-.hero-visual.has-webgl .scene-ui .product-plane{width:35%;min-height:0;left:7%;bottom:8%;z-index:4;animation-delay:.22s}
+.hero-visual.has-webgl .scene-ui .campaign-plane{width:28%;height:31%;top:auto;right:5%;bottom:14%;z-index:1;animation-delay:.08s}
+.hero-visual.has-webgl .scene-ui .product-plane{width:35%;min-height:0;left:7%;bottom:14%;z-index:4;animation-delay:.22s}
 .hero-visual.has-webgl .scene-ui .product-plane img{height:94px;object-fit:cover;transform:none}
 .hero-visual.has-webgl .scene-ui .product-plane div{padding:9px 12px}
 .hero-visual.has-webgl .scene-ui .product-plane small{font-size:8px}.hero-visual.has-webgl .scene-ui .product-plane b{font-size:16px}
@@ -13,5 +13,5 @@
 .hero-visual.has-webgl .scene-ui .campaign-plane:after{display:none}
 .hero-visual.has-webgl .scene-ui .campaign-plane img{filter:none}
 @keyframes scene-card-in{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:800px){.hero-visual.has-webgl .scene-ui .campaign-plane{width:31%;height:25%;top:auto;right:5%;bottom:8%}.hero-visual.has-webgl .scene-ui .product-plane{width:46%;left:6%;bottom:8%}.hero-visual.has-webgl .scene-ui .product-plane img{height:76px}.hero-visual.has-webgl .scene-ui .fit-float{top:8%;left:5%}.hero-visual.has-webgl .scene-ui .stock-float{top:8%;right:5%}}
+@media(max-width:800px){.hero-visual.has-webgl .scene-ui .campaign-plane{width:31%;height:25%;top:auto;right:5%;bottom:13%}.hero-visual.has-webgl .scene-ui .product-plane{width:46%;left:6%;bottom:13%}.hero-visual.has-webgl .scene-ui .product-plane img{height:76px}.hero-visual.has-webgl .scene-ui .fit-float{top:8%;left:5%}.hero-visual.has-webgl .scene-ui .stock-float{top:8%;right:5%}}
 @media(prefers-reduced-motion:reduce){.hero-visual.has-webgl .scene-ui .three-card,.hero-visual.has-webgl .scene-ui .three-float{animation:none}}

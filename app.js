@@ -1,3 +1,7 @@
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import shoeModelUrl from './assets/models/materials-variants-shoe.glb?url';
+
 const aiWindow = document.querySelector('#ai-window');
 const chat = document.querySelector('.chat');
 const input = document.querySelector('.chat-input input');
@@ -32,4 +36,45 @@ if (heroScene) {
   });
   heroScene.addEventListener('pointerleave', resetScene);
   resetScene();
+}
+
+// Actual Three.js / WebGL shoe model, loaded locally rather than simulated with a 2D image.
+if (heroScene && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const canvas = document.createElement('canvas');
+  canvas.className = 'threejs-canvas';
+  canvas.setAttribute('aria-hidden', 'true');
+  heroScene.append(canvas);
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+  camera.position.set(0, 0.45, 7.4);
+  const group = new THREE.Group();
+  scene.add(group);
+  scene.add(new THREE.HemisphereLight(0xfff6ec, 0x4b0709, 3.2));
+  const key = new THREE.DirectionalLight(0xffffff, 4.5); key.position.set(4, 6, 5); scene.add(key);
+  const rim = new THREE.DirectionalLight(0xff4050, 4); rim.position.set(-5, 2, -3); scene.add(rim);
+  const floor = new THREE.Mesh(new THREE.CircleGeometry(2.65, 64), new THREE.MeshBasicMaterial({ color: 0xe1252c, transparent: true, opacity: 0.32 }));
+  floor.rotation.x = -Math.PI / 2; floor.position.y = -1.65; group.add(floor);
+  const loader = new GLTFLoader();
+  loader.load(shoeModelUrl, gltf => {
+    const shoe = gltf.scene;
+    const box = new THREE.Box3().setFromObject(shoe);
+    const size = box.getSize(new THREE.Vector3()).length();
+    const center = box.getCenter(new THREE.Vector3());
+    shoe.position.sub(center);
+    shoe.scale.setScalar(3.4 / size);
+    shoe.rotation.set(-0.16, -0.82, 0.1);
+    shoe.traverse(node => { if (node.isMesh) { node.castShadow = true; node.material.envMapIntensity = 1.25; } });
+    group.add(shoe);
+    heroScene.classList.add('has-webgl');
+  });
+  const pointer = new THREE.Vector2(0, 0);
+  heroScene.addEventListener('pointermove', event => { const rect = heroScene.getBoundingClientRect(); pointer.x = ((event.clientX - rect.left) / rect.width - .5) * 2; pointer.y = ((event.clientY - rect.top) / rect.height - .5) * 2; });
+  heroScene.addEventListener('pointerleave', () => pointer.set(0, 0));
+  const resize = () => { const width = heroScene.clientWidth; const height = heroScene.clientHeight; renderer.setSize(width, height, false); camera.aspect = width / height; camera.updateProjectionMatrix(); };
+  const clock = new THREE.Clock();
+  const render = () => { const time = clock.getElapsedTime(); group.rotation.y += ((pointer.x * .34) - group.rotation.y) * .045; group.rotation.x += ((-pointer.y * .16) - group.rotation.x) * .045; group.position.y = Math.sin(time * .85) * .08; renderer.render(scene, camera); requestAnimationFrame(render); };
+  resize(); new ResizeObserver(resize).observe(heroScene); render();
 }

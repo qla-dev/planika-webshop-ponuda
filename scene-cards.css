@@ -10,6 +10,10 @@
 .hero-visual.has-webgl .scene-ui .stock-float{top:11%;right:5%;bottom:auto;z-index:6;animation-delay:.46s}
 .hero-visual.has-webgl .scene-ui .three-float{padding:10px 12px;gap:2px}
 .hero-visual.has-webgl .scene-ui .three-float{display:grid;gap:4px}
+.hero-visual.has-webgl .scene-ui .stock-float{grid-template-columns:8px 1fr;column-gap:7px;align-items:center}
+.hero-visual.has-webgl .scene-ui .stock-float i{position:static;grid-column:1;grid-row:1;margin:0}
+.hero-visual.has-webgl .scene-ui .stock-float b{grid-column:2;grid-row:1;padding:0}
+.hero-visual.has-webgl .scene-ui .stock-float span{grid-column:1 / -1;grid-row:2}
 .hero-visual.has-webgl .scene-ui .three-float{transition:none}
 .hero-visual.has-webgl .scene-ui .campaign-plane:after{display:none}
 .hero-visual.has-webgl .scene-ui .campaign-plane img{filter:none}

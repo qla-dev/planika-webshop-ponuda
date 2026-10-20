@@ -1,0 +1,2 @@
+/* Keep normal document flow; the brandbook is moved in the DOM before the webshop. */
+main{display:block}.experience .shop-demo{display:block}.experience .commerce-scope{display:none}.experience{position:relative;padding-top:120px}.experience:before{content:"";position:absolute;top:0;left:7vw;right:7vw;height:1px;background:#ffffff2d}

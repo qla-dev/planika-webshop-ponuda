@@ -4,6 +4,10 @@ import shoeModelUrl from './assets/models/materials-variants-shoe.glb?url';
 
 const aiWindow = document.querySelector('#ai-window');
 document.querySelector('.design-language')?.setAttribute('id', 'brandbook');
+const mainContent = document.querySelector('main');
+const brandbook = document.querySelector('.design-language');
+const webshopSection = document.querySelector('.experience');
+if (mainContent && brandbook && webshopSection) mainContent.insertBefore(brandbook, webshopSection);
 const chat = document.querySelector('.chat');
 const input = document.querySelector('.chat-input input');
 const form = document.querySelector('.chat-input');

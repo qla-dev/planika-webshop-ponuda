@@ -3,6 +3,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import shoeModelUrl from './assets/models/materials-variants-shoe.glb?url';
 
 const aiWindow = document.querySelector('#ai-window');
+document.querySelector('.design-language')?.setAttribute('id', 'brandbook');
 const chat = document.querySelector('.chat');
 const input = document.querySelector('.chat-input input');
 const form = document.querySelector('.chat-input');

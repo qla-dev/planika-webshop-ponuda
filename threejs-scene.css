@@ -1,5 +1,5 @@
 /* The WebGL canvas is the primary scene. Existing DOM layers remain as accessible fallback. */
-.threejs-canvas{position:absolute!important;inset:0;z-index:6;width:100%;height:100%;pointer-events:none}
+.threejs-canvas{position:absolute!important;inset:0;z-index:30;width:100%;height:100%;pointer-events:none}
 .hero-visual.has-webgl .three-grid{display:block;opacity:.48;transform:none;inset:0;mask-image:none}
 .hero-visual.has-webgl .orb-back{display:block;opacity:.9}
 .hero-visual.has-webgl .campaign-plane{display:block;opacity:1;transform:none;box-shadow:none}

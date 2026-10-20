@@ -9,6 +9,7 @@
 .hero-visual.has-webgl .scene-ui .fit-float{top:11%;left:6%;z-index:5;animation-delay:.34s}
 .hero-visual.has-webgl .scene-ui .stock-float{top:11%;right:5%;bottom:auto;z-index:6;animation-delay:.46s}
 .hero-visual.has-webgl .scene-ui .three-float{padding:10px 12px;gap:2px}
+.hero-visual.has-webgl .scene-ui .three-float{display:grid;gap:4px}
 .hero-visual.has-webgl .scene-ui .three-float{transition:none}
 .hero-visual.has-webgl .scene-ui .campaign-plane:after{display:none}
 .hero-visual.has-webgl .scene-ui .campaign-plane img{filter:none}

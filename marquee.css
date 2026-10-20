@@ -1,0 +1,7 @@
+/* A duplicated track makes the message loop without an empty frame. */
+.marquee{padding:0}
+.marquee .marquee-track{display:flex;width:max-content;animation:planika-marquee 24s linear infinite;will-change:transform}
+.marquee .marquee-track span{display:block;flex:none;padding:16px 22px 16px 0}
+.marquee .marquee-track span+span{padding-left:0}
+@keyframes planika-marquee{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.marquee .marquee-track{animation:none}}

@@ -1,0 +1,16 @@
+/* One explicit UI layer: four visible, flat cards above the WebGL shoe scene. */
+.hero-visual.has-webgl .scene-ui{position:absolute;inset:0;z-index:20;pointer-events:none}
+.hero-visual.has-webgl .scene-ui .three-card,.hero-visual.has-webgl .scene-ui .three-float{display:block;position:absolute;opacity:1;transform:none;box-shadow:0 18px 40px #0004;animation:scene-card-in .7s cubic-bezier(.2,.8,.2,1) both}
+.hero-visual.has-webgl .scene-ui .campaign-plane{width:34%;height:42%;top:45%;right:5%;z-index:1;animation-delay:.08s}
+.hero-visual.has-webgl .scene-ui .product-plane{width:43%;min-height:0;left:7%;bottom:8%;z-index:4;animation-delay:.22s}
+.hero-visual.has-webgl .scene-ui .product-plane img{height:142px;object-fit:cover;transform:none}
+.hero-visual.has-webgl .scene-ui .product-plane div{padding:12px 15px}
+.hero-visual.has-webgl .scene-ui .product-plane b{font-size:18px}
+.hero-visual.has-webgl .scene-ui .fit-float{top:13%;left:7%;z-index:5;animation-delay:.34s}
+.hero-visual.has-webgl .scene-ui .stock-float{top:13%;right:6%;bottom:auto;z-index:6;animation-delay:.46s}
+.hero-visual.has-webgl .scene-ui .three-float{transition:none}
+.hero-visual.has-webgl .scene-ui .campaign-plane:after{display:none}
+.hero-visual.has-webgl .scene-ui .campaign-plane img{filter:none}
+@keyframes scene-card-in{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:800px){.hero-visual.has-webgl .scene-ui .campaign-plane{width:42%;height:34%;top:49%;right:5%}.hero-visual.has-webgl .scene-ui .product-plane{width:55%;left:6%;bottom:8%}.hero-visual.has-webgl .scene-ui .product-plane img{height:108px}.hero-visual.has-webgl .scene-ui .fit-float{top:8%;left:5%}.hero-visual.has-webgl .scene-ui .stock-float{top:8%;right:5%}}
+@media(prefers-reduced-motion:reduce){.hero-visual.has-webgl .scene-ui .three-card,.hero-visual.has-webgl .scene-ui .three-float{animation:none}}

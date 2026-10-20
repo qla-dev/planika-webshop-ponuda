@@ -1,0 +1,22 @@
+/* Concrete webshop scope within the reconstruction proposal */
+.experience-head{grid-template-columns:.7fr 1.05fr .7fr;align-items:center}
+.experience-head .section-number{margin:0}
+.experience h2{font-size:clamp(42px,4.25vw,68px);line-height:1.02;letter-spacing:-.055em}
+.experience-head>p{line-height:1.65}
+.commerce-scope{display:grid;grid-template-columns:repeat(3,1fr);margin-top:28px;border-top:1px solid #ffffff2e;border-bottom:1px solid #ffffff2e}
+.commerce-scope article{min-height:280px;padding:30px 28px 27px}
+.commerce-scope article+article{border-left:1px solid #ffffff2e}
+.commerce-scope span{color:#ff777c;font:10px 'DM Mono';letter-spacing:.1em}
+.commerce-scope h3{margin:24px 0 12px;font:700 25px/1.08 'Playfair Display'}
+.commerce-scope p{margin:0;color:#c2b9b1;font-size:12px;line-height:1.6}
+.commerce-scope ul{margin:14px 0 0;padding:13px 0 0;border-top:1px solid #ffffff22;color:#f9f3ea;font-size:11px;list-style:none}
+.commerce-scope li{padding:4px 0}
+.commerce-scope li:before{content:'↗';margin-right:8px;color:#ff777c}
+
+@media(max-width:800px){
+  .experience-head,.commerce-scope{grid-template-columns:1fr}
+  .experience-head{gap:22px;align-items:start}
+  .experience h2{font-size:clamp(42px,12vw,62px)}
+  .commerce-scope article{min-height:0;padding:25px 0}
+  .commerce-scope article+article{border-top:1px solid #ffffff2e;border-left:0}
+}

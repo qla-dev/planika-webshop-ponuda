@@ -4,6 +4,7 @@
 .hero-visual.has-webgl .orb-back{display:block;opacity:.9}
 .hero-visual.has-webgl .campaign-plane{display:block;opacity:1;transform:none;box-shadow:none}
 .hero-visual.has-webgl .product-plane{display:block;opacity:1;transform:none;box-shadow:none}
+.hero-visual.has-webgl .product-plane{z-index:11}
 .hero-visual.has-webgl .three-float{z-index:9;transition:none}
 .hero-visual.has-webgl .fit-float{transform:translateZ(0) rotateY(0) rotateX(0)}
 .hero-visual.has-webgl .stock-float{transform:translateZ(0) rotateY(0) rotateX(0)}

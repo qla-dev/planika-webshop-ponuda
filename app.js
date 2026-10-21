@@ -1,3 +1,4 @@
+import './commerce-components.js';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import shoeModelUrl from './assets/models/materials-variants-shoe.glb?url';
@@ -22,20 +23,8 @@ document.querySelectorAll('[data-open-ai]').forEach(button => button.addEventLis
 document.querySelector('[data-close-ai]').addEventListener('click', () => aiWindow.classList.remove('open'));
 document.querySelectorAll('[data-prompt]').forEach(button => button.addEventListener('click', () => answer(button.dataset.prompt)));
 form.addEventListener('submit', event => { event.preventDefault(); const question = input.value.trim(); if (question) answer(question); });
-const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }), { threshold: .12 });
+const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }), { threshold: 0, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.section, .reveal').forEach(el => observer.observe(el));
-
-// The commerce showcase focuses on one webshop decision at a time, instead of showing every module at once.
-const commerceLab = document.querySelector('.commerce-lab');
-if (commerceLab) {
-  const panels = [...commerceLab.querySelectorAll('.lab-shop-grid > article')];
-  commerceLab.querySelector('.lab-top').insertAdjacentHTML('afterend', '<div class="lab-modes"><button class="active" data-commerce-mode="0">01 / PRETRAGA I FILTERI</button><button data-commerce-mode="1">02 / KATALOG I DETALJ</button><button data-commerce-mode="2">03 / CLUB I POVRATAK</button></div>');
-  const setCommerceMode = index => { panels.forEach((panel, panelIndex) => panel.classList.toggle('active-panel', panelIndex === index)); commerceLab.querySelectorAll('[data-commerce-mode]').forEach(button => button.classList.toggle('active', Number(button.dataset.commerceMode) === index)); };
-  commerceLab.querySelectorAll('[data-commerce-mode]').forEach(button => button.addEventListener('click', () => setCommerceMode(Number(button.dataset.commerceMode))));
-  const catalogProducts = commerceLab.querySelector('.catalog-products');
-  if (catalogProducts) catalogProducts.innerHTML = `<article class="catalog-item"><img src="assets/planika/products/gabor-womens.png" alt="Gabor model" /><small>GABOR / ŽENE</small><b>Udoban korak za grad</b><span>Dostupno online</span></article><article class="catalog-item"><img src="assets/planika/products/gant-womens.png" alt="Gant model" /><small>GANT / ŽENE</small><b>Stil koji prati ritam</b><span>Provjeri veličinu</span></article><article class="catalog-item"><img src="assets/planika/products/extr4-mens.png" alt="EXTR4 model" /><small>EXTR4 / MUŠKARCI</small><b>Podrška za svaki dan</b><span>AI Fit preporuka</span></article><article class="catalog-item"><img src="assets/planika/products/mexx-viper-tasty.png" alt="Mexx model" /><small>MEXX / ŽENE</small><b>Nova boja, isti komfor</b><span>U prodavnici danas</span></article>`;
-  setCommerceMode(0);
-}
 
 // Lightweight 3D commerce scene: layered HTML moves with the pointer; no heavy WebGL runtime.
 const heroScene = document.querySelector('.hero-visual');

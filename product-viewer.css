@@ -1,0 +1,23 @@
+.example-product-photo{gap:12px}
+.shoe-viewer-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.shoe-viewer-modes{display:flex;border:1px solid #c9bdae;padding:2px;gap:2px;flex-shrink:0}
+.shoe-viewer-modes button{border:0;background:transparent;color:#756859;padding:5px 8px;font-size:9px;line-height:1.4}
+.shoe-viewer-modes [aria-pressed='true']{background:#fffdf9;color:#211e1b;box-shadow:0 1px 3px #33241415}
+.shoe-viewer-modes button:disabled{opacity:.4}
+.shoe-viewer-viewport{position:relative;width:100%;height:265px;min-height:220px;isolation:isolate}
+.shoe-viewer-viewport>[data-shoe-photo]{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;transform:rotate(-7deg);padding:12px}
+.shoe-viewer-canvas{position:absolute;inset:0;width:100%;height:100%;display:none;cursor:grab;touch-action:none}
+.shoe-viewer-canvas:active{cursor:grabbing}
+.show-3d .shoe-viewer-canvas{display:block}
+.show-3d [data-shoe-photo]{visibility:hidden}
+.shoe-viewer-status{position:absolute;left:8px;right:8px;bottom:4px;padding:8px;background:#fffdf9e8;text-align:center;font-size:9px;color:#766759}
+.shoe-viewer-controls{display:flex;align-items:center;justify-content:center;gap:8px}
+.shoe-viewer-controls[hidden],.shoe-viewer-status[hidden],.shoe-viewer-credit[hidden]{display:none}
+.shoe-viewer-controls button{display:flex;align-items:center;justify-content:center;gap:5px;min-height:30px;border:1px solid #cfc3b4;background:transparent;padding:6px 11px;font-size:9px;color:#5e5043}
+.shoe-viewer-controls button:hover,.shoe-viewer-controls [aria-pressed='true']{border-color:#75604c;background:#e4dacd}
+.shoe-viewer-controls button:disabled{opacity:.45}
+.shoe-viewer-hint{margin:0;text-align:center;font-size:8px;color:#776c61;line-height:1.6}
+.shoe-viewer-credit{margin:0;text-align:center;font:7px/1.6 'DM Mono',monospace;color:#7a6c5d}
+.shoe-viewer-credit a{color:inherit;text-underline-offset:2px}
+.example-product-photo .example-photo-caption{margin-top:auto;padding-top:4px}
+@media(max-width:540px){.shoe-viewer-viewport{height:245px}.shoe-viewer-top{gap:7px}.shoe-viewer-modes button{padding:6px 10px}.shoe-viewer-controls button{min-height:36px;padding:8px 13px}.shoe-viewer-hint{font-size:9px}.shoe-viewer-credit{font-size:8px}}

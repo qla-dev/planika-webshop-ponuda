@@ -7,9 +7,16 @@
 .hero-visual.has-webgl .three-woman-bg{inset:0 0 0 auto;width:52%;opacity:1;filter:none;background:url('assets/planika/hero-woman.jpg') center 22%/cover no-repeat}
 .hero-visual.has-webgl .three-woman-bg:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#efe9df 0,#efe9df00 38%)}
 
-/* Soft floor shadow under the shoe */
-.hero-visual.has-webgl:before{display:block!important;content:"";position:absolute;height:46px;border-radius:50%;background:radial-gradient(closest-side,#15131233,#15131200);mix-blend-mode:normal;opacity:1;z-index:2;inset:auto 30% 22% 12%}
-.hero-visual.has-webgl .threejs-canvas{z-index:6}
+/* Högl heel: layered cut-out that turns with the pointer */
+.hero-visual.has-webgl:before{display:none!important}
+.heel-stage{position:absolute;left:4%;top:12%;width:64%;height:50%;z-index:8;perspective:1100px;pointer-events:none}
+.heel{position:absolute;inset:0;transform-style:preserve-3d;transform:translateY(var(--lift,0)) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) rotateZ(-5deg)}
+.heel img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;-webkit-user-drag:none;user-select:none}
+.heel-layer{transform:translateZ(var(--z));filter:brightness(.25)}
+.heel-face{transform:translateZ(0);filter:drop-shadow(0 2px 1px #0003)}
+.heel-shine{position:absolute;inset:0;transform:translateZ(.5px);background:radial-gradient(circle at var(--sx,50%) var(--sy,35%),#ffffff8c,#ffffff00 34%);mix-blend-mode:screen;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center}
+.heel-shadow{position:absolute;left:10%;right:8%;bottom:-4%;height:38px;border-radius:50%;background:radial-gradient(closest-side,#15131247,#15131200);transform:scaleX(var(--shadow,1))}
+@media (max-width:760px){.heel-stage{left:3%;top:14%;width:78%;height:40%}}
 
 /* Cards: flat, white, thin — like the shop UI */
 .hero-visual.has-webgl .scene-ui .three-card,.hero-visual.has-webgl .scene-ui .three-float{box-shadow:0 10px 30px #1513121a;border:1px solid #15131210}

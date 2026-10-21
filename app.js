@@ -1,8 +1,6 @@
 import './commerce-components.js';
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import shoeModelUrl from './assets/models/materials-variants-shoe.glb?url';
-import heroProductUrl from './assets/planika/products/gabor-womens.png';
+import heroHeelUrl from './assets/planika/products/hogl-heel.png';
+import heroHeelFrontUrl from './assets/planika/products/hogl-heel-front.jpg';
 
 const aiWindow = document.querySelector('#ai-window');
 document.querySelector('.design-language')?.setAttribute('id', 'brandbook');
@@ -32,7 +30,7 @@ const heroScene = document.querySelector('.hero-visual');
 if (heroScene) {
   heroScene.classList.add('is-three-scene');
   heroScene.classList.add('has-webgl');
-  heroScene.insertAdjacentHTML('afterbegin', `<div class="three-grid"></div><div class="three-woman-bg"></div><div class="three-orb orb-back"></div><div class="three-orb orb-front"></div><div class="scene-ui"><div class="three-card product-plane"><img src="${heroProductUrl}" alt="Gabor ženski model" /><div><small>GABOR / ŽENE</small><b>Udoban korak za grad</b></div></div><div class="three-float fit-float"><b>AI FIT</b><span>Veličina bez nagađanja</span></div><div class="three-float stock-float"><i></i><b>DOSTUPNO</b><span>Provjeri prodavnicu u blizini</span></div></div>`);
+  heroScene.insertAdjacentHTML('afterbegin', `<div class="three-grid"></div><div class="three-woman-bg"></div><div class="three-orb orb-back"></div><div class="three-orb orb-front"></div><div class="scene-ui"><div class="three-card product-plane"><img src="${heroHeelFrontUrl}" alt="Högl lakirana salonka" /><div><small>HÖGL · 469,00 KM</small><b>Lakirana salonka</b></div></div><div class="three-float fit-float"><b>AI FIT</b><span>Veličina bez nagađanja</span></div><div class="three-float stock-float"><i></i><b>DOSTUPNO</b><span>Provjeri prodavnicu u blizini</span></div></div>`);
   window.setTimeout(() => heroScene.querySelectorAll('.scene-ui .three-card, .scene-ui .three-float').forEach(card => card.classList.add('gentle-float')), 820);
   const setTilt = (x, y) => { heroScene.style.setProperty('--tilt-x-soft', `${x * .28 + 4}deg`); heroScene.style.setProperty('--tilt-y-soft', `${y * .28 - 14}deg`); heroScene.style.setProperty('--tilt-x-product', `${x * .7 - 7}deg`); heroScene.style.setProperty('--tilt-y-product', `${y * .7 + 12}deg`); heroScene.style.setProperty('--tilt-x-float', `${x * .9}deg`); heroScene.style.setProperty('--tilt-y-float', `${y * .9}deg`); };
   const resetScene = () => setTilt(0, 0);
@@ -47,40 +45,36 @@ if (heroScene) {
   resetScene();
 }
 
-// Actual Three.js / WebGL shoe model, loaded locally rather than simulated with a 2D image.
-if (heroScene && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  const canvas = document.createElement('canvas');
-  canvas.className = 'threejs-canvas';
-  canvas.setAttribute('aria-hidden', 'true');
-  heroScene.append(canvas);
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
-  camera.position.set(0, 0.45, 7.4);
-  const group = new THREE.Group();
-  scene.add(group);
-  scene.add(new THREE.HemisphereLight(0xfff8f0, 0xcfc3b4, 3.2));
-  const key = new THREE.DirectionalLight(0xffffff, 4.5); key.position.set(4, 6, 5); scene.add(key);
-  const rim = new THREE.DirectionalLight(0xfff1e0, 2.5); rim.position.set(-5, 2, -3); scene.add(rim);
-  const loader = new GLTFLoader();
-  loader.load(shoeModelUrl, gltf => {
-    const shoe = gltf.scene;
-    const box = new THREE.Box3().setFromObject(shoe);
-    const size = box.getSize(new THREE.Vector3()).length();
-    const center = box.getCenter(new THREE.Vector3());
-    shoe.position.sub(center);
-    shoe.scale.setScalar(3.4 / size);
-    shoe.rotation.set(-0.16, -0.82, 0.1);
-    shoe.traverse(node => { if (node.isMesh) { node.castShadow = true; node.material.envMapIntensity = 1.25; } });
-    group.add(shoe);
+// Högl heel from the Planika catalogue: a layered cut-out that turns in 3D space with the pointer.
+if (heroScene) {
+  const stage = document.createElement('div');
+  stage.className = 'heel-stage';
+  stage.setAttribute('aria-hidden', 'true');
+  const depth = Array.from({ length: 8 }, (_, i) => `<img class="heel-layer" style="--z:${-(i + 1) * 1.5}px" src="${heroHeelUrl}" alt="" />`).join('');
+  stage.innerHTML = `<div class="heel-shadow"></div><div class="heel">${depth}<img class="heel-face" src="${heroHeelUrl}" alt="" /><span class="heel-shine" style="-webkit-mask-image:url(${heroHeelUrl});mask-image:url(${heroHeelUrl})"></span></div>`;
+  heroScene.append(stage);
+  const heel = stage.querySelector('.heel');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let targetX = 0, targetY = 0, currentX = 0, currentY = 0, hovering = false;
+  heroScene.addEventListener('pointermove', event => {
+    if (event.pointerType === 'touch') return;
+    const rect = heroScene.getBoundingClientRect();
+    targetX = ((event.clientX - rect.left) / rect.width - .5) * 2;
+    targetY = ((event.clientY - rect.top) / rect.height - .5) * 2;
+    hovering = true;
   });
-  const pointer = new THREE.Vector2(0, 0);
-  heroScene.addEventListener('pointermove', event => { const rect = heroScene.getBoundingClientRect(); pointer.x = ((event.clientX - rect.left) / rect.width - .5) * 2; pointer.y = ((event.clientY - rect.top) / rect.height - .5) * 2; });
-  heroScene.addEventListener('pointerleave', () => pointer.set(0, 0));
-  const resize = () => { const width = heroScene.clientWidth; const height = heroScene.clientHeight; renderer.setSize(width, height, false); camera.aspect = width / height; camera.updateProjectionMatrix(); };
-  const clock = new THREE.Clock();
-  const render = () => { const time = clock.getElapsedTime(); group.rotation.y += ((pointer.x * .34) - group.rotation.y) * .045; group.rotation.x += ((-pointer.y * .16) - group.rotation.x) * .045; group.position.y = Math.sin(time * .85) * .08; renderer.render(scene, camera); requestAnimationFrame(render); };
-  resize(); new ResizeObserver(resize).observe(heroScene); render();
+  heroScene.addEventListener('pointerleave', () => { targetX = 0; targetY = 0; hovering = false; });
+  const tick = time => {
+    currentX += (targetX - currentX) * .07;
+    currentY += (targetY - currentY) * .07;
+    const idle = reduceMotion || hovering ? 0 : Math.sin(time / 1500) * 9;
+    heel.style.setProperty('--ry', `${-14 + currentX * 40 + idle}deg`);
+    heel.style.setProperty('--rx', `${5 - currentY * 14}deg`);
+    heel.style.setProperty('--lift', `${reduceMotion ? 0 : Math.sin(time / 1100) * 7}px`);
+    heel.style.setProperty('--sx', `${50 + currentX * 45}%`);
+    heel.style.setProperty('--sy', `${35 + currentY * 35}%`);
+    stage.style.setProperty('--shadow', `${1 - Math.abs(currentX) * .22}`);
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
 }

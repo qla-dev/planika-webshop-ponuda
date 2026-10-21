@@ -8,7 +8,7 @@
 .cs-head .eyebrow{color:#f6f1ea}
 .cs-head h2{margin:18px 0 0;color:#fff;font-size:clamp(40px,5.4vw,84px);line-height:1}
 .cs-head h2 em{color:var(--red);font-style:italic}
-.cs-head p{max-width:340px;margin:0;color:#cfc7bd;font-size:15px;line-height:1.6}
+.cs-head>p{max-width:340px;margin:0;color:#cfc7bd;font-size:15px;line-height:1.6}
 .cs-specs{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}
 .cs-specs span{font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;text-transform:uppercase;border:1px solid #ffffff33;padding:8px 10px;color:#e9e2d8}
 

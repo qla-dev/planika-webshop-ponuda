@@ -17,3 +17,6 @@
 .hero-visual.has-webgl .scene-ui .product-plane img{object-fit:contain;mix-blend-mode:normal;background:#f6f2ec;padding:8px}
 .hero-visual.has-webgl .scene-ui .stock-float i{background:var(--red)}
 .hero-visual.is-three-scene .vertical{color:#15131280}
+
+/* Small section labels (eyebrows): quieter on phones */
+@media (max-width:760px){.eyebrow{font-size:8.5px;letter-spacing:.13em}.eyebrow i{width:7px;height:7px;margin-right:7px}}

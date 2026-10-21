@@ -1,6 +1,6 @@
 /* Light editorial hero scene: cream stage, campaign photo, warm-lit 3D shoe. Loaded last. */
 .hero-visual.is-three-scene{background:#efe9df!important;color:#151312}
-.hero-visual.is-three-scene:after{inset:18px;border:1px solid #15131214;z-index:8}
+.hero-visual.is-three-scene:after{display:none}
 .hero-visual.has-webgl .three-grid,.hero-visual.has-webgl .orb-back,.hero-visual.has-webgl .orb-front{display:none}
 
 /* Campaign photo as a calm editorial panel on the right */

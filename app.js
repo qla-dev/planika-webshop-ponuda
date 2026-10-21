@@ -33,7 +33,7 @@ const heroScene = document.querySelector('.hero-visual');
 if (heroScene) {
   heroScene.classList.add('is-three-scene');
   heroScene.classList.add('has-webgl');
-  heroScene.insertAdjacentHTML('afterbegin', `<div class="three-grid"></div><div class="three-woman-bg"></div><div class="three-orb orb-back"></div><div class="three-orb orb-front"></div><div class="scene-ui"><div class="three-card product-plane"><img src="${heroHeelFrontUrl}" alt="Högl lakirana salonka" /><div><small>HÖGL · 469,00 KM</small><b>Lakirana salonka</b></div></div><div class="three-float fit-float"><b>AI FIT</b><span>Veličina bez nagađanja</span></div><div class="three-float stock-float"><i></i><b>DOSTUPNO</b><span>Provjeri prodavnicu u blizini</span></div></div>`);
+  heroScene.insertAdjacentHTML('afterbegin', `<div class="three-grid"></div><div class="three-woman-bg"></div><div class="three-orb orb-back"></div><div class="three-orb orb-front"></div><div class="scene-ui"><a class="three-card product-plane" href="#izgled" aria-label="Högl lakirana salonka, 469,00 KM — pogledaj u konceptu webshopa"><img src="${heroHeelFrontUrl}" alt="Högl lakirana salonka" /><div><small>HÖGL · 469,00 KM</small><b>Lakirana salonka</b><span class="plane-cta">Pogledaj proizvod <i>→</i></span></div></a><div class="three-float fit-float"><b>AI FIT</b><span>Veličina bez nagađanja</span></div><div class="three-float stock-float"><i></i><b>DOSTUPNO</b><span>Provjeri prodavnicu u blizini</span></div></div>`);
   window.setTimeout(() => heroScene.querySelectorAll('.scene-ui .three-card, .scene-ui .three-float').forEach(card => card.classList.add('gentle-float')), 820);
   const setTilt = (x, y) => { heroScene.style.setProperty('--tilt-x-soft', `${x * .28 + 4}deg`); heroScene.style.setProperty('--tilt-y-soft', `${y * .28 - 14}deg`); heroScene.style.setProperty('--tilt-x-product', `${x * .7 - 7}deg`); heroScene.style.setProperty('--tilt-y-product', `${y * .7 + 12}deg`); heroScene.style.setProperty('--tilt-x-float', `${x * .9}deg`); heroScene.style.setProperty('--tilt-y-float', `${y * .9}deg`); };
   const resetScene = () => setTilt(0, 0);
@@ -63,7 +63,7 @@ if (heroScene) {
   const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 100);
   camera.position.set(0, 0.35, 7.6);
   const group = new THREE.Group();
-  group.position.x = -0.35;
+  group.position.x = 0.15;
   scene.add(group);
   scene.add(new THREE.HemisphereLight(0xfff8f0, 0xcfc3b4, 1.6));
   const key = new THREE.DirectionalLight(0xffffff, 2.4); key.position.set(4, 6, 5); scene.add(key);
@@ -92,7 +92,7 @@ if (heroScene) {
     const idle = reduceMotion || hovering ? 0 : Math.sin(time * .5) * .35;
     group.rotation.y += ((pointer.x * 1.4 + idle) - group.rotation.y) * .05;
     group.rotation.x += ((pointer.y * .25) - group.rotation.x) * .05;
-    group.position.y = 0.42 + (reduceMotion ? 0 : Math.sin(time * .85) * .06);
+    group.position.y = 0.62 + (reduceMotion ? 0 : Math.sin(time * .85) * .06);
     renderer.render(scene, camera);
     requestAnimationFrame(render);
   };

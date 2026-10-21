@@ -8,7 +8,7 @@
 .hero-visual.has-webgl .three-woman-bg:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#efe9df 0,#efe9df00 38%)}
 
 /* Högl heel 3D model on a soft floor shadow */
-.hero-visual.has-webgl:before{display:block!important;content:"";position:absolute;inset:auto 34% 40% 12%;height:40px;border-radius:50%;background:radial-gradient(closest-side,#15131238,#15131200);mix-blend-mode:normal;opacity:1;z-index:2}
+.hero-visual.has-webgl:before{display:block!important;content:"";position:absolute;inset:auto 22% 42% 26%;height:44px;border-radius:50%;background:radial-gradient(closest-side,#15131238,#15131200);mix-blend-mode:normal;opacity:1;z-index:2}
 .hero-visual.has-webgl .heel-canvas{z-index:8}
 /* Cards: flat, white, thin — like the shop UI */
 .hero-visual.has-webgl .scene-ui .three-card,.hero-visual.has-webgl .scene-ui .three-float{box-shadow:0 10px 30px #1513121a;border:1px solid #15131210}
@@ -24,3 +24,20 @@
 /* Hero proof points: more air between the three items */
 .hero-proof{gap:56px;flex-wrap:wrap;row-gap:18px}
 @media (max-width:760px){.hero-proof{gap:34px;flex-wrap:nowrap}.hero-proof div{flex-direction:column;gap:7px}}
+
+/* Studio backdrop: warm spotlight behind the heel, soft blush edges, faint Planika red glow */
+.hero-visual.is-three-scene{background:radial-gradient(circle at 88% 12%,#bb132b2e 0,#bb132b00 34%),radial-gradient(ellipse 58% 52% at 52% 44%,#fffdf9 0,#f8efe6 34%,#ecdccc 66%,#dcc4ae 100%)!important}
+.hero-visual.has-webgl .three-woman-bg{display:none}
+
+/* Cards stay still; only the heel floats */
+.hero-visual.has-webgl .scene-ui .three-card,.hero-visual.has-webgl .scene-ui .three-float{animation:none!important;transform:none!important}
+
+/* Product card behaves like a clickable product tile */
+.hero-visual.has-webgl .scene-ui .product-plane{pointer-events:auto;cursor:pointer;color:inherit;text-decoration:none;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s ease!important}
+.hero-visual.has-webgl .scene-ui .product-plane:hover,.hero-visual.has-webgl .scene-ui .product-plane:focus-visible{transform:translateY(-6px)!important;box-shadow:0 26px 50px #1513122e!important}
+.hero-visual.has-webgl .scene-ui .product-plane img{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.hero-visual.has-webgl .scene-ui .product-plane:hover img{transform:scale(1.06)!important}
+.plane-cta{display:flex;align-items:center;gap:6px;margin-top:4px;font:600 10px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--red);opacity:0;transform:translateY(4px);transition:opacity .3s ease,transform .3s ease}
+.plane-cta i{font-style:normal;transition:transform .3s ease}
+.product-plane:hover .plane-cta,.product-plane:focus-visible .plane-cta{opacity:1;transform:none}
+.product-plane:hover .plane-cta i{transform:translateX(3px)}

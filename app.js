@@ -1,5 +1,8 @@
 import './commerce-components.js';
-import heroHeelUrl from './assets/planika/products/hogl-heel.png';
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import heelModelUrl from './assets/models/hogl-heel.glb?url';
 import heroHeelFrontUrl from './assets/planika/products/hogl-heel-front.jpg';
 
 const aiWindow = document.querySelector('#ai-window');
@@ -45,36 +48,53 @@ if (heroScene) {
   resetScene();
 }
 
-// Högl heel from the Planika catalogue: a layered cut-out that turns in 3D space with the pointer.
+// Högl heel from the Planika catalogue as a real 3D model (generated from the product photo); turns with the pointer.
 if (heroScene) {
-  const stage = document.createElement('div');
-  stage.className = 'heel-stage';
-  stage.setAttribute('aria-hidden', 'true');
-  const depth = Array.from({ length: 8 }, (_, i) => `<img class="heel-layer" style="--z:${-(i + 1) * 1.5}px" src="${heroHeelUrl}" alt="" />`).join('');
-  stage.innerHTML = `<div class="heel-shadow"></div><div class="heel">${depth}<img class="heel-face" src="${heroHeelUrl}" alt="" /><span class="heel-shine" style="-webkit-mask-image:url(${heroHeelUrl});mask-image:url(${heroHeelUrl})"></span></div>`;
-  heroScene.append(stage);
-  const heel = stage.querySelector('.heel');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let targetX = 0, targetY = 0, currentX = 0, currentY = 0, hovering = false;
-  heroScene.addEventListener('pointermove', event => {
-    if (event.pointerType === 'touch') return;
-    const rect = heroScene.getBoundingClientRect();
-    targetX = ((event.clientX - rect.left) / rect.width - .5) * 2;
-    targetY = ((event.clientY - rect.top) / rect.height - .5) * 2;
-    hovering = true;
+  const canvas = document.createElement('canvas');
+  canvas.className = 'threejs-canvas heel-canvas';
+  canvas.setAttribute('aria-hidden', 'true');
+  heroScene.append(canvas);
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  const scene = new THREE.Scene();
+  scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+  const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 100);
+  camera.position.set(0, 0.35, 7.6);
+  const group = new THREE.Group();
+  group.position.x = -0.35;
+  scene.add(group);
+  scene.add(new THREE.HemisphereLight(0xfff8f0, 0xcfc3b4, 1.6));
+  const key = new THREE.DirectionalLight(0xffffff, 2.4); key.position.set(4, 6, 5); scene.add(key);
+  const rim = new THREE.DirectionalLight(0xfff1e0, 1.6); rim.position.set(-5, 2, -3); scene.add(rim);
+  new GLTFLoader().load(heelModelUrl, gltf => {
+    const heel = gltf.scene;
+    const box = new THREE.Box3().setFromObject(heel);
+    const size = box.getSize(new THREE.Vector3());
+    heel.position.sub(box.getCenter(new THREE.Vector3()));
+    const holder = new THREE.Group();
+    holder.add(heel);
+    holder.scale.setScalar(2.1 / Math.max(size.x, size.y, size.z));
+    holder.rotation.set(0.06, -Math.PI / 2 + 0.3, 0);
+    heel.traverse(node => { if (node.isMesh) { node.material.roughness = 0.6; node.material.envMapIntensity = 1.3; } });
+    group.add(holder);
   });
-  heroScene.addEventListener('pointerleave', () => { targetX = 0; targetY = 0; hovering = false; });
-  const tick = time => {
-    currentX += (targetX - currentX) * .07;
-    currentY += (targetY - currentY) * .07;
-    const idle = reduceMotion || hovering ? 0 : Math.sin(time / 1500) * 9;
-    heel.style.setProperty('--ry', `${-14 + currentX * 40 + idle}deg`);
-    heel.style.setProperty('--rx', `${5 - currentY * 14}deg`);
-    heel.style.setProperty('--lift', `${reduceMotion ? 0 : Math.sin(time / 1100) * 7}px`);
-    heel.style.setProperty('--sx', `${50 + currentX * 45}%`);
-    heel.style.setProperty('--sy', `${35 + currentY * 35}%`);
-    stage.style.setProperty('--shadow', `${1 - Math.abs(currentX) * .22}`);
-    requestAnimationFrame(tick);
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const pointer = new THREE.Vector2(0, 0);
+  let hovering = false;
+  heroScene.addEventListener('pointermove', event => { if (event.pointerType === 'touch') return; const rect = heroScene.getBoundingClientRect(); pointer.x = ((event.clientX - rect.left) / rect.width - .5) * 2; pointer.y = ((event.clientY - rect.top) / rect.height - .5) * 2; hovering = true; });
+  heroScene.addEventListener('pointerleave', () => { pointer.set(0, 0); hovering = false; });
+  const resize = () => { const width = heroScene.clientWidth; const height = heroScene.clientHeight; renderer.setSize(width, height, false); camera.aspect = width / height; camera.position.z = width / height < 1.2 ? 9.4 : 7.6; camera.updateProjectionMatrix(); };
+  const clock = new THREE.Clock();
+  const render = () => {
+    const time = clock.getElapsedTime();
+    const idle = reduceMotion || hovering ? 0 : Math.sin(time * .5) * .35;
+    group.rotation.y += ((pointer.x * 1.4 + idle) - group.rotation.y) * .05;
+    group.rotation.x += ((pointer.y * .25) - group.rotation.x) * .05;
+    group.position.y = 0.42 + (reduceMotion ? 0 : Math.sin(time * .85) * .06);
+    renderer.render(scene, camera);
+    requestAnimationFrame(render);
   };
-  requestAnimationFrame(tick);
+  resize(); new ResizeObserver(resize).observe(heroScene); render();
 }

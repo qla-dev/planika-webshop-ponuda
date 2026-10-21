@@ -2,6 +2,7 @@ import './commerce-components.js';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import shoeModelUrl from './assets/models/materials-variants-shoe.glb?url';
+import heroProductUrl from './assets/planika/products/gabor-womens.png';
 
 const aiWindow = document.querySelector('#ai-window');
 document.querySelector('.design-language')?.setAttribute('id', 'brandbook');
@@ -31,7 +32,7 @@ const heroScene = document.querySelector('.hero-visual');
 if (heroScene) {
   heroScene.classList.add('is-three-scene');
   heroScene.classList.add('has-webgl');
-  heroScene.insertAdjacentHTML('afterbegin', `<div class="three-grid"></div><div class="three-woman-bg"></div><div class="three-orb orb-back"></div><div class="three-orb orb-front"></div><div class="scene-ui"><div class="three-card campaign-plane"><img src="assets/planika/hero-new-collection.jpg" alt="Planika collection" /><span>NEW COLLECTION / 01</span></div><div class="three-card product-plane"><img src="assets/planika/product-ara.jpg" alt="Planika footwear" /><div><small>ARA / HIGH SOFT</small><b>Comfort in motion</b></div></div><div class="three-float fit-float"><b>AI FIT</b><span>Size without guessing</span></div><div class="three-float stock-float"><i></i><b>AVAILABLE</b><span>Check a nearby store</span></div></div>`);
+  heroScene.insertAdjacentHTML('afterbegin', `<div class="three-grid"></div><div class="three-woman-bg"></div><div class="three-orb orb-back"></div><div class="three-orb orb-front"></div><div class="scene-ui"><div class="three-card product-plane"><img src="${heroProductUrl}" alt="Gabor ženski model" /><div><small>GABOR / ŽENE</small><b>Udoban korak za grad</b></div></div><div class="three-float fit-float"><b>AI FIT</b><span>Veličina bez nagađanja</span></div><div class="three-float stock-float"><i></i><b>DOSTUPNO</b><span>Provjeri prodavnicu u blizini</span></div></div>`);
   window.setTimeout(() => heroScene.querySelectorAll('.scene-ui .three-card, .scene-ui .three-float').forEach(card => card.classList.add('gentle-float')), 820);
   const setTilt = (x, y) => { heroScene.style.setProperty('--tilt-x-soft', `${x * .28 + 4}deg`); heroScene.style.setProperty('--tilt-y-soft', `${y * .28 - 14}deg`); heroScene.style.setProperty('--tilt-x-product', `${x * .7 - 7}deg`); heroScene.style.setProperty('--tilt-y-product', `${y * .7 + 12}deg`); heroScene.style.setProperty('--tilt-x-float', `${x * .9}deg`); heroScene.style.setProperty('--tilt-y-float', `${y * .9}deg`); };
   const resetScene = () => setTilt(0, 0);
@@ -60,9 +61,9 @@ if (heroScene && !window.matchMedia('(prefers-reduced-motion: reduce)').matches)
   camera.position.set(0, 0.45, 7.4);
   const group = new THREE.Group();
   scene.add(group);
-  scene.add(new THREE.HemisphereLight(0xfff6ec, 0x4b0709, 3.2));
+  scene.add(new THREE.HemisphereLight(0xfff8f0, 0xcfc3b4, 3.2));
   const key = new THREE.DirectionalLight(0xffffff, 4.5); key.position.set(4, 6, 5); scene.add(key);
-  const rim = new THREE.DirectionalLight(0xff4050, 4); rim.position.set(-5, 2, -3); scene.add(rim);
+  const rim = new THREE.DirectionalLight(0xfff1e0, 2.5); rim.position.set(-5, 2, -3); scene.add(rim);
   const loader = new GLTFLoader();
   loader.load(shoeModelUrl, gltf => {
     const shoe = gltf.scene;

@@ -1,0 +1,20 @@
+/* Light editorial hero scene: cream stage, campaign photo, warm-lit 3D shoe. Loaded last. */
+.hero-visual.is-three-scene{background:#efe9df!important;color:#151312}
+.hero-visual.is-three-scene:after{inset:18px;border:1px solid #15131214;z-index:8}
+.hero-visual.has-webgl .three-grid,.hero-visual.has-webgl .orb-back,.hero-visual.has-webgl .orb-front{display:none}
+
+/* Campaign photo as a calm editorial panel on the right */
+.hero-visual.has-webgl .three-woman-bg{inset:0 0 0 auto;width:52%;opacity:1;filter:none;background:url('assets/planika/hero-woman.jpg') center 22%/cover no-repeat}
+.hero-visual.has-webgl .three-woman-bg:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#efe9df 0,#efe9df00 38%)}
+
+/* Soft floor shadow under the shoe */
+.hero-visual.has-webgl:before{display:block!important;content:"";position:absolute;height:46px;border-radius:50%;background:radial-gradient(closest-side,#15131233,#15131200);mix-blend-mode:normal;opacity:1;z-index:2;inset:auto 30% 22% 12%}
+.hero-visual.has-webgl .threejs-canvas{z-index:6}
+
+/* Cards: flat, white, thin — like the shop UI */
+.hero-visual.has-webgl .scene-ui .three-card,.hero-visual.has-webgl .scene-ui .three-float{box-shadow:0 10px 30px #1513121a;border:1px solid #15131210}
+.hero-visual.has-webgl .scene-ui .campaign-plane{display:none}
+.hero-visual.has-webgl .scene-ui .product-plane{background:#fff}
+.hero-visual.has-webgl .scene-ui .product-plane img{object-fit:contain;mix-blend-mode:normal;background:#f6f2ec;padding:8px}
+.hero-visual.has-webgl .scene-ui .stock-float i{background:var(--red)}
+.hero-visual.is-three-scene .vertical{color:#15131280}

@@ -1,0 +1,31 @@
+Options -Indexes
+DirectoryIndex dist/index.html
+
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(html|php)$">
+        Header set Cache-Control "private, no-cache"
+    </FilesMatch>
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Keep the deployment endpoint outside the generated Vite build.
+    RewriteRule ^redeploy\.php$ - [L]
+
+    # Prevent repeated rewriting after a request has entered dist.
+    RewriteRule ^dist(?:/|$) - [L]
+
+    # Serve generated files and directories from dist.
+    RewriteCond %{DOCUMENT_ROOT}/dist/$1 -f [OR]
+    RewriteCond %{DOCUMENT_ROOT}/dist/$1 -d
+    RewriteRule ^(.+)$ dist/$1 [L]
+
+    # Vite client-side routes fall back to the generated entry file.
+    RewriteRule ^$ dist/index.html [L]
+    RewriteRule . dist/index.html [L]
+</IfModule>

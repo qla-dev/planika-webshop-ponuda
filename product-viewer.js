@@ -11,21 +11,20 @@ export function initProductViewer(photoPanel) {
   const fallback = photoPanel.querySelector('[data-shoe-photo]');
   const status = photoPanel.querySelector('[data-shoe-status]');
   const controlsBar = photoPanel.querySelector('.shoe-viewer-controls');
-  const modeButtons = [...photoPanel.querySelectorAll('[data-shoe-mode]')];
   const autoButton = photoPanel.querySelector('[data-shoe-auto]');
   const resetButton = photoPanel.querySelector('[data-shoe-reset]');
   const hint = photoPanel.querySelector('[data-shoe-hint]');
   const attribution = photoPanel.querySelector('.shoe-viewer-credit');
-  let mode = '3d';
   let ready = false;
   let visible = false;
   let renderer, camera, orbit, scene, frame;
   let started = false;
   let lastTime = 0;
+  let pointerStart;
 
   function render(time = performance.now()) {
     frame = undefined;
-    if (!ready || mode !== '3d' || !visible || document.hidden) return;
+    if (!ready || !visible || document.hidden) return;
     const delta = Math.min((time - lastTime) / 1000, .05);
     lastTime = time;
     orbit.update(delta);
@@ -40,20 +39,11 @@ export function initProductViewer(photoPanel) {
     autoButton.setAttribute('aria-pressed', 'false');
     autoButton.textContent = '↻ Auto';
   }
-  function setMode(nextMode) {
-    mode = nextMode;
-    modeButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.shoeMode === mode)));
-    photoPanel.classList.toggle('show-3d', mode === '3d' && ready);
-    controlsBar.hidden = mode !== '3d';
-    attribution.hidden = mode !== '3d';
-    status.hidden = mode !== '3d' || ready;
-    photoPanel.querySelector('.example-photo-caption > span').textContent = mode === '3d' ? '3D / ILUSTRACIJA' : (photoPanel.dataset.productBrand || 'GABOR');
-    photoPanel.querySelector('.example-photo-caption > span:last-child').textContent = mode === '3d' ? '360°' : '01 / 01';
-    hint.textContent = mode === '3d' ? 'Povuci za rotaciju · strelice na tastaturi' : 'Fotografija odabranog proizvoda';
-    if (mode !== '3d') pauseAuto();
+  function resetView() {
+    pauseAuto();
+    orbit?.reset();
     requestRender();
   }
-  modeButtons.forEach(button => button.addEventListener('click', () => setMode(button.dataset.shoeMode)));
 
   function fail() {
     ready = false;
@@ -61,8 +51,11 @@ export function initProductViewer(photoPanel) {
     if (frame) cancelAnimationFrame(frame);
     renderer?.dispose();
     renderer?.domElement.remove();
-    modeButtons.find(button => button.dataset.shoeMode === '3d').disabled = true;
-    setMode('photo');
+    photoPanel.classList.remove('show-3d');
+    photoPanel.classList.add('show-photo-fallback');
+    controlsBar.hidden = true;
+    attribution.hidden = true;
+    hint.textContent = 'Fotografija proizvoda kao zamjena za nedostupan 3D prikaz';
     status.textContent = '3D prikaz nije dostupan. Prikazana je fotografija proizvoda.';
     status.hidden = false;
   }
@@ -154,7 +147,8 @@ export function initProductViewer(photoPanel) {
       ready = true;
       photoPanel.dataset.viewerReady = 'true';
       autoButton.disabled = resetButton.disabled = false;
-      setMode(mode);
+      photoPanel.classList.add('show-3d');
+      status.hidden = true;
       autoButton.addEventListener('click', () => {
         orbit.autoRotate = !orbit.autoRotate;
         autoButton.setAttribute('aria-pressed', String(orbit.autoRotate));
@@ -162,7 +156,18 @@ export function initProductViewer(photoPanel) {
         lastTime = performance.now();
         requestRender();
       });
-      resetButton.addEventListener('click', () => { pauseAuto(); orbit.reset(); requestRender(); });
+      resetButton.addEventListener('click', resetView);
+      canvas.addEventListener('pointerdown', event => {
+        pointerStart = { x: event.clientX, y: event.clientY, dragged: false };
+      });
+      canvas.addEventListener('pointermove', event => {
+        if (!pointerStart) return;
+        pointerStart.dragged ||= Math.hypot(event.clientX - pointerStart.x, event.clientY - pointerStart.y) > 8;
+      });
+      canvas.addEventListener('click', () => {
+        if (!pointerStart?.dragged) resetView();
+        pointerStart = undefined;
+      });
       canvas.addEventListener('keydown', event => {
         const delta = { ArrowLeft: [-.18, 0], ArrowRight: [.18, 0], ArrowUp: [0, -.14], ArrowDown: [0, .14] }[event.key];
         if (!delta) return;
@@ -189,8 +194,6 @@ export function initProductViewer(photoPanel) {
     setPhoto(product) {
       fallback.src = product.image;
       fallback.alt = `${product.brand} ženski model obuće`;
-      photoPanel.dataset.productBrand = product.brand.toUpperCase();
-      setMode(mode);
     }
   };
 }

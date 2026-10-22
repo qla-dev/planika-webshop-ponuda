@@ -17,4 +17,5 @@
 .shoe-viewer-credit{margin:0;text-align:center;font:7px/1.6 'DM Mono',monospace;color:#7a6c5d}
 .shoe-viewer-credit a{color:inherit;text-underline-offset:2px}
 .example-product-photo .example-photo-caption{margin-top:auto;padding-top:4px}
+@media(max-width:1100px){.shoe-viewer-badge{white-space:normal;text-align:right}}
 @media(max-width:540px){.shoe-viewer-viewport{height:245px}.shoe-viewer-top{gap:7px}.shoe-viewer-badge{font-size:7px;padding:6px}.shoe-viewer-controls button{min-height:36px;padding:8px 13px}.shoe-viewer-hint{font-size:9px}.shoe-viewer-credit{font-size:8px}}

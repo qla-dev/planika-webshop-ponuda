@@ -93,7 +93,9 @@
 
 @media (prefers-reduced-motion:reduce){.cs-scroll{animation:none}}
 
-@media (max-width:900px){
+@media (max-width:1100px){.cs-browser{width:100%}}
+
+@media (max-width:800px){
   .cs{padding:80px 0 90px}
   .cs-head{grid-template-columns:1fr;margin-bottom:40px}
   .cs-browser{width:100%}

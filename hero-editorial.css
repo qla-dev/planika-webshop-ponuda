@@ -14,7 +14,7 @@
 .hero-visual.has-webgl .scene-ui .three-card,.hero-visual.has-webgl .scene-ui .three-float{box-shadow:0 10px 30px #1513121a;border:1px solid #15131210}
 .hero-visual.has-webgl .scene-ui .campaign-plane{display:none}
 .hero-visual.has-webgl .scene-ui .product-plane{background:#fff}
-.hero-visual.has-webgl .scene-ui .product-plane img{object-fit:contain;mix-blend-mode:normal;background:#f6f2ec;padding:8px}
+.hero-visual.has-webgl .scene-ui .product-plane img{object-fit:contain;mix-blend-mode:normal;background:#fff;padding:8px}
 .hero-visual.has-webgl .scene-ui .stock-float i{background:var(--red)}
 .hero-visual.is-three-scene .vertical{color:#15131280}
 
@@ -41,3 +41,6 @@
 .plane-cta i{font-style:normal;transition:transform .3s ease}
 .product-plane:hover .plane-cta,.product-plane:focus-visible .plane-cta{opacity:1;transform:none}
 .product-plane:hover .plane-cta i{transform:translateX(3px)}
+
+/* 01 / Polazište: white section */
+.intro{background:#fff}

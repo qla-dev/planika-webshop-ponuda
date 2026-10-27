@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import heelModelUrl from './assets/models/hogl-heel.glb?url';
-import heroHeelFrontUrl from './assets/planika/products/hogl-heel-front.jpg';
+import heroHeelFrontUrl from './assets/planika/products/hogl-heel-front.png';
 
 const aiWindow = document.querySelector('#ai-window');
 document.querySelector('.design-language')?.setAttribute('id', 'brandbook');
@@ -75,7 +75,7 @@ if (heroScene) {
     heel.position.sub(box.getCenter(new THREE.Vector3()));
     const holder = new THREE.Group();
     holder.add(heel);
-    holder.scale.setScalar(2.1 / Math.max(size.x, size.y, size.z));
+    holder.scale.setScalar(2.8 / Math.max(size.x, size.y, size.z));
     holder.rotation.set(0.06, -Math.PI / 2 + 0.3, 0);
     heel.traverse(node => { if (node.isMesh) { node.material.roughness = 0.6; node.material.envMapIntensity = 1.3; } });
     group.add(holder);

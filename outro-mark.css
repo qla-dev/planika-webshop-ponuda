@@ -5,12 +5,11 @@
 .outro-mark{right:var(--mark-right);bottom:var(--mark-bottom,0);width:var(--mark-w);height:auto;z-index:2}
 
 /* laptop, pc i wide: the logo fills the empty band right of the button. It starts level with the button's top edge,
-   runs 80px after the button out to the footer's right margin ("Nazad na vrh", 5vw), and reaches down into the footer,
-   ending ~34px above its text (section padding 44px + 15px into the footer = 59px under the card).
+   runs 80px after the button out to the footer's right margin ("Nazad na vrh", 5vw), and stops exactly at the footer line.
    Width = (100vw - 5vw) - (7vw + 7vw + 264px button + 80px gap). The card keeps just enough room under the button. */
 @media(min-width:801px){
   .outro{padding-bottom:44px}
-  .outro-card{overflow:visible;--mark-w:calc(81vw - 344px);--mark-right:-2vw;--mark-bottom:-59px;padding-bottom:max(0px,calc(var(--mark-h) - 119px))}
+  .outro-card{overflow:visible;--mark-w:calc(81vw - 344px);--mark-right:-2vw;--mark-bottom:-44px;padding-bottom:max(0px,calc(var(--mark-h) - 104px))}
 }
 /* laptop: a smaller 48px gap after the button, so the logo stays big enough on the narrower screen. */
 @media(min-width:801px) and (max-width:1100px){

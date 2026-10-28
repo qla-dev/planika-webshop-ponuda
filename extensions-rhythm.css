@@ -7,14 +7,9 @@
 .extension-grid article>p:not(.phase-kicker){margin:0 0 13px;font-size:13px;line-height:1.7}
 .extension-grid small{position:static;display:block;margin:auto 0 13px}
 
-/* laptop i tablet: two by two, with a line between the rows */
+/* laptop, tablet i mobitel: a two-by-two grid with one continuous centre divider */
 @media(max-width:1100px){
   .extension-grid{grid-template-columns:1fr 1fr}
   .extension-grid article:nth-child(3){border-left:0;padding-left:0}
-  .extension-grid article:nth-child(n+3){border-top:1px solid var(--line);margin-top:13px}
-}
-/* mobitel: one under the other, like the 1/2/3 items */
-@media(max-width:540px){
-  .extension-grid{grid-template-columns:1fr}
-  .extension-grid article+article{border-left:0;padding-left:0;border-top:1px solid var(--line);margin-top:13px}
+  .extension-grid article:nth-child(n+3){border-top:0;margin-top:0}
 }

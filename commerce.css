@@ -48,5 +48,5 @@
 /* pc i wide: like Otkrij / Odluči / Nastavi, the three items run full width under the heading,
    so the 27px headings stay on one or two lines instead of squeezing into the right half. */
 @media(min-width:1101px){.omni-grid{grid-template-columns:1fr;gap:0}.omni-cards{margin-top:72px}}
-@media(max-width:1100px){.omni-cards{border-top:1px solid #ffffff33}}
+@media(max-width:1100px){.omni-grid{grid-template-columns:1fr;gap:0}.omni-cards{margin-top:32px;border-top:0}}
 @media(max-width:800px){.omni-cards article+article{border-left:0;border-top:1px solid #ffffff33;padding-left:0}}

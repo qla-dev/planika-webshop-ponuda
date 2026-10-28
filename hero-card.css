@@ -14,7 +14,7 @@
 .hero-visual .stage-title{position:absolute;top:clamp(28px,7%,56px);left:0;right:0;z-index:15;padding:0 24px;text-align:center;pointer-events:none}
 .hero-visual .stage-title small{display:block;font:500 9px/1.5 'DM Mono',monospace;letter-spacing:.16em;color:#d8cfc6b3}
 .hero-visual .stage-title p{margin:10px 0 0;font:600 clamp(26px,2.6vw,40px)/1.1 'Playfair Display',Georgia,serif;letter-spacing:-.02em;color:#f6f0e8}
-.hero-visual .stage-title em{font-style:italic;color:#e0485c}
+.hero-visual .stage-title em{font-style:italic;color:var(--red)}
 
 /* mobitel: the stage and the podium are smaller, so the card sits closer to it */
 @media(max-width:540px){

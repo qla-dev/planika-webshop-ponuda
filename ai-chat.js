@@ -1,8 +1,8 @@
 import './ai-chat.css';
 // Planika AI demo: a scripted shopping conversation over real planika.ba products (new collection 2026).
 // Names, brands, prices and available sizes are copied from planika.ba; the replies are illustrative.
-const photos = import.meta.glob('./assets/planika/ai/*.jpg', { eager: true, import: 'default' });
-const item = (sku, brand, name, price, sizes) => ({ sku, brand, name, price, sizes, image: photos[`./assets/planika/ai/${sku.toLowerCase()}.jpg`] });
+const photos = import.meta.glob('./assets/planika/ai/*.png', { eager: true, import: 'default' });
+const item = (sku, brand, name, price, sizes) => ({ sku, brand, name, price, sizes, image: photos[`./assets/planika/ai/${sku.toLowerCase()}.png`] });
 
 // Each shelf: everything for one need and department, `picks` = the three shown first.
 const shelves = {

@@ -2,7 +2,7 @@ import heelCutoutUrl from './assets/planika/products/hogl-heel.png';
 import { initProductViewer } from './product-viewer.js';
 import { renderHeelShots } from './heel-variants.js';
 // Product photos from the planika.ba new collection (season 2026), named by Planika SKU.
-const collectionPhotos = import.meta.glob('./assets/planika/collection/*.jpg', { eager: true, import: 'default' });
+const collectionPhotos = import.meta.glob('./assets/planika/collection/*.png', { eager: true, import: 'default' });
 import './product-viewer.css';
 
 // Self-contained, illustrative interactions for the reconstruction walkthrough.
@@ -40,7 +40,7 @@ if (walkthrough) {
     ['59ZGL10442', 'D.Franklin', 'Ženska čizma NORDIC TRK FUR LOW', 129, 'zene'],
     ['11ZGL11162', 'Salamander', 'Ženska gležnjerica', 229, 'zene'],
     ['20MCJ10901', 'Geox', 'Muška cipela VITTOUR PLUS MAN', 229, 'muskarci']
-  ].map(([sku, brand, name, price, gender]) => ({ sku, brand, name, price, gender, image: collectionPhotos[`./assets/planika/collection/${sku.toLowerCase()}.jpg`] }));
+  ].map(([sku, brand, name, price, gender]) => ({ sku, brand, name, price, gender, image: collectionPhotos[`./assets/planika/collection/${sku.toLowerCase()}.png`] }));
   const byId = id => products.find(product => product.id === id);
   const find = selector => walkthrough.querySelector(selector);
   const all = selector => [...walkthrough.querySelectorAll(selector)];

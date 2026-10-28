@@ -1,0 +1,15 @@
+/* Type system (see the Type & Rhythm card):
+   Manrope  = UI, filters, prices, statuses
+   DM Mono  = data, sizes, SKU, catalog
+   Playfair Display stays for headings. */
+
+/* Form controls don't inherit fonts by default and fall back to Arial. */
+button,input,select,textarea{font-family:inherit}
+
+/* Sizes are data: DM Mono everywhere they appear. */
+.sizes button,
+.example-filter-sizes button,
+.example-active-filter b,
+.example-detail-sizes button,
+.example-stock-product strong,
+.example-bag-product strong{font-family:'DM Mono',monospace}

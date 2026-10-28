@@ -1,0 +1,22 @@
+/* Hero: the Högl product card appears just under the podium, centred on it, instead of in the top corner.
+   --stage-x / --stage-y are the podium's screen position, set from the 3D scene in app.js.
+   Under the podium there is only ~150px, so the card is a compact row: photo left, brand, name and link right. */
+.hero-visual.has-webgl .scene-ui .product-plane{
+  --card-w:min(260px,84%);
+  top:min(calc(var(--stage-y) + 62px),calc(100% - 92px));right:auto;bottom:auto;left:calc(var(--stage-x) - var(--card-w) / 2);
+  width:var(--card-w);display:grid;grid-template-columns:76px minmax(0,1fr);align-items:center;overflow:hidden
+}
+.hero-visual.has-webgl .scene-ui .product-plane img{width:76px;height:76px;padding:6px}
+.hero-visual.has-webgl .scene-ui .product-plane div{display:grid;gap:3px;padding:10px 12px}
+.hero-visual.has-webgl .scene-ui .product-plane b{font-size:15px;line-height:1.1}
+
+/* Title over the stage, centred at the top, above the spotlights; the heel and podium sit centred under it. */
+.hero-visual .stage-title{position:absolute;top:clamp(28px,7%,56px);left:0;right:0;z-index:15;padding:0 24px;text-align:center;pointer-events:none}
+.hero-visual .stage-title small{display:block;font:500 9px/1.5 'DM Mono',monospace;letter-spacing:.16em;color:#d8cfc6b3}
+.hero-visual .stage-title p{margin:10px 0 0;font:600 clamp(26px,2.6vw,40px)/1.1 'Playfair Display',Georgia,serif;letter-spacing:-.02em;color:#f6f0e8}
+.hero-visual .stage-title em{font-style:italic;color:#e0485c}
+
+/* mobitel: the stage and the podium are smaller, so the card sits closer to it */
+@media(max-width:540px){
+  .hero-visual.has-webgl .scene-ui .product-plane{top:min(calc(var(--stage-y) + 48px),calc(100% - 88px))}
+}

@@ -1,0 +1,19 @@
+/* Every UI rectangle (buttons, chips, colour swatches, cards, panels) gets 4px corners.
+   Containers whose inner panels touch their edges clip them so the corners stay round.
+   Not rounded on purpose: full-width bands, photos and logos, tiny 9px eyebrow squares,
+   split panels that sit flush inside a rounded card (cart logo side + "Tvoja korpa", product 3D side),
+   and the browser / phone / tablet mockups and the Planika Club cards, which keep their own real-object radii. */
+:root{--radius:4px}
+
+button,.button,select,input,textarea,
+.three-card,.three-float,
+.cs-specs span,.shop-look .tag,.shop-item .badge,.collection-item .badge,
+.palette-card,.swatch,.type-card,.motion-card,
+.component-preview,.search-dropdown,.example-search,.example-catalog-card>div,
+.shoe-viewer-mode,.shoe-viewer-thumb,.shoe-viewer-status,.example-store-status,
+.ai-window,.bubble,
+.omni-cards,.screen,.screen-caption,.store-pop,
+.discovery-chips span,.example-active-filter b,
+.example-search-result img,.example-stock-product img,.example-bag-product img,.example-favorite img{border-radius:var(--radius)}
+
+.three-card,.component-preview,.omni-cards{overflow:hidden}

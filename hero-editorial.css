@@ -25,9 +25,31 @@
 .hero-proof{gap:56px;flex-wrap:wrap;row-gap:18px}
 @media (max-width:800px){.hero-proof{gap:34px;flex-wrap:nowrap}.hero-proof div{flex-direction:column;gap:7px}}
 
-/* Studio backdrop: warm spotlight behind the heel, soft blush edges, faint Planika red glow */
-.hero-visual.is-three-scene{background:radial-gradient(circle at 88% 12%,#bb132b2e 0,#bb132b00 34%),radial-gradient(ellipse 58% 52% at 52% 44%,#fffdf9 0,#f8efe6 34%,#ecdccc 66%,#dcc4ae 100%)!important}
+/* Stage: dark theatre, warm haze behind the podium, faint Planika red at the edges */
+.hero-visual.is-three-scene{background:radial-gradient(ellipse 46% 40% at var(--stage-x,52%) calc(var(--stage-y,70%) - 18%),#4a362bcc 0,#4a362b00 70%),radial-gradient(circle at 92% 8%,#bb132b30 0,#bb132b00 36%),radial-gradient(ellipse 80% 75% at 50% 45%,#2a1f19 0,#17110e 62%,#0b0807 100%)!important;color:#f6f0e8}
 .hero-visual.has-webgl .three-woman-bg{display:none}
+.hero-visual.has-webgl:before{display:none!important}
+.hero-visual.is-three-scene .vertical{color:#ffffff4d}
+.hero-visual.on-heel{cursor:pointer}
+
+/* Spotlights: soft light falling on the podium, like light through a little haze (position comes from the 3D scene).
+   Each beam is a blurred cone that fades in from the lamp and dissolves before the floor; nothing has a hard edge. */
+.stage-beams{position:absolute;inset:0;z-index:6;pointer-events:none;mix-blend-mode:screen;overflow:hidden}
+.stage-beams:before{content:"";position:absolute;left:calc(var(--stage-x,52%) - 14%);top:-9%;width:28%;height:20%;border-radius:50%;background:radial-gradient(closest-side,#fff1de4d,#fff1de00);filter:blur(6px)}
+.stage-beams i{position:absolute;inset:0;filter:blur(26px);opacity:.12;-webkit-mask-image:linear-gradient(180deg,#000 0,#000 55%,#0000 100%);mask-image:linear-gradient(180deg,#000 0,#000 55%,#0000 100%);animation:beam-breathe 9s ease-in-out infinite}
+/* the cone is cut on the inner layer so the outer blur softens its edges */
+.stage-beams i:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#ffeedb 0,#ffeedb99 45%,#ffeedb00 100%);clip-path:polygon(var(--x1) -10%,var(--x2) -10%,var(--x4) var(--stage-y,70%),var(--x3) var(--stage-y,70%))}
+.stage-beams i:nth-child(1){--x1:calc(var(--stage-x,52%) - 6%);--x2:calc(var(--stage-x,52%) + 6%);--x3:calc(var(--stage-x,52%) - 24%);--x4:calc(var(--stage-x,52%) + 24%);opacity:.22}
+.stage-beams i:nth-child(2){--x1:4%;--x2:14%;--x3:calc(var(--stage-x,52%) - 22%);--x4:calc(var(--stage-x,52%) + 2%);opacity:.06;animation-delay:-3s}
+.stage-beams i:nth-child(3){--x1:86%;--x2:96%;--x3:calc(var(--stage-x,52%) - 2%);--x4:calc(var(--stage-x,52%) + 22%);opacity:.06;animation-delay:-6s}
+@keyframes beam-breathe{50%{filter:blur(30px)}}
+@media(prefers-reduced-motion:reduce){.stage-beams i{animation:none}}
+
+/* The heel stands alone: info cards removed, the product card waits for a 3 s hover (or tap / keyboard focus) */
+.hero-visual.has-webgl .scene-ui .three-float{display:none!important}
+.hero-visual.has-webgl .scene-ui .product-plane{top:7%;right:5%;bottom:auto;left:auto;width:min(250px,42%);color:#151312;opacity:0;pointer-events:none!important;transform:translateY(14px)!important;transition:opacity .45s ease,transform .45s cubic-bezier(.2,.7,.2,1)!important}
+.hero-visual.show-card .scene-ui .product-plane,.hero-visual .scene-ui .product-plane:focus-visible{opacity:1;pointer-events:auto!important;transform:none!important}
+.hero-visual.show-card .scene-ui .product-plane .plane-cta{opacity:1;transform:none}
 
 /* Cards stay still; only the heel floats */
 .hero-visual.has-webgl .scene-ui .three-card,.hero-visual.has-webgl .scene-ui .three-float{animation:none!important;transform:none!important}

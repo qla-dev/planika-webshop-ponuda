@@ -1,0 +1,49 @@
+/* 07 / Digitalni operativni model: the team board is a light preview card like the components above
+   (.component-preview + bar), on the dark section. Items are split by lines, not boxes, like Otkrij / Odluči / Nastavi. */
+.operating-board{display:block;margin-top:65px;border:1px solid #ffffff24}
+.operating-board .component-preview-bar .ks-online{font:inherit;letter-spacing:inherit}
+
+/* Module nav reads like the webshop nav: dark text, red underline on the active item. */
+.board-rail{display:flex;gap:26px;padding:0 26px;border:0;border-bottom:1px solid #e3ddd4;overflow-x:auto;scrollbar-width:none}
+.board-rail span{flex:none;padding:17px 0 14px;border-bottom:2px solid transparent;border-radius:0;background:none;color:#6f665d;font-size:12px;font-weight:600}
+.board-rail .active{background:none;color:#211e1b;border-bottom-color:var(--red)}
+
+.board-main{padding:34px 26px 26px}
+.board-title{display:block}
+.board-title small{font:500 9px/1.5 'DM Mono',monospace;letter-spacing:.1em;color:var(--red)}
+.board-title h4{margin:10px 0 0;max-width:520px;color:#211e1b}
+
+.metric-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:30px;border-top:1px solid #e3ddd4}
+.metric-grid article{display:flex;flex-direction:column;gap:8px;min-height:0;padding:22px 24px 4px 0;background:none;border-radius:0}
+.metric-grid article+article{padding-left:24px;border-left:1px solid #e3ddd4}
+.metric-grid span{font:500 9px/1.5 'DM Mono',monospace;letter-spacing:.08em;color:#8d8176}
+.metric-grid b{font-size:12px;font-weight:700;color:#211e1b}
+.metric-grid strong{font:600 22px/1.15 'Playfair Display',Georgia,serif;color:#211e1b}
+.metric-grid article:first-child strong{color:var(--red)}
+.metric-grid em{margin-top:auto;padding-top:6px;color:#70665c;font-size:11px;font-style:normal;line-height:1.6}
+
+/* From data to decision: four numbered steps on one line, the last one in red. */
+.board-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:28px 0 0;padding:0;list-style:none;background:none;border-top:1px solid #e3ddd4;border-radius:0;font:600 11px/1.4 Manrope,sans-serif;color:#211e1b}
+.board-flow li{position:relative;display:grid;gap:6px;padding:16px 16px 0 0}
+.board-flow li+li{padding-left:16px;border-left:1px solid #e3ddd4}
+.board-flow small{font:500 9px 'DM Mono',monospace;letter-spacing:.08em;color:#8d8176}
+.board-flow li:last-child{color:var(--red)}
+.board-flow li:last-child small{color:var(--red)}
+
+/* tablet i mobitel */
+@media(max-width:800px){
+  .operating-board{margin-top:45px}
+  .board-rail{grid-template-columns:none;border-right:0}
+  .metric-grid{grid-template-columns:1fr}
+  .metric-grid article{padding:20px 0 18px}
+  .metric-grid article+article{padding-left:0;border-left:0;border-top:1px solid #e3ddd4}
+  .board-flow{grid-template-columns:1fr 1fr;gap:0;justify-items:stretch;margin-top:12px}
+  .board-flow li:nth-child(n+3){border-top:1px solid #e3ddd4;padding-bottom:0;margin-top:14px}
+  .board-flow li:nth-child(3){padding-left:0;border-left:0}
+}
+/* mobitel */
+@media(max-width:540px){
+  .board-rail{gap:14px;padding:0 18px}
+  .board-rail span{font-size:11px}
+  .board-main{padding:28px 20px 22px}
+}

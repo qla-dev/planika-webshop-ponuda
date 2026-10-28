@@ -1,11 +1,11 @@
 /* 09 / Moguće nadogradnje follow Otkrij / Odluči / Nastavi and ONLINE / STORE / CLUB:
    lines between items, no boxes, the same label, heading and text sizes and the same spacing. */
 .extension-grid{gap:0;background:none;border:0;border-radius:0;overflow:visible}
-.extension-grid article{display:flex;flex-direction:column;min-height:0;padding:26px 35px 0 0;background:none}
+.extension-grid article{display:block;min-height:0;padding:26px 35px 0 0;background:none}
 .extension-grid article+article{border-left:1px solid var(--line);padding-left:35px}
 .extension-grid h3{margin:15px 0 10px;font-size:27px;line-height:1.1}
 .extension-grid article>p:not(.phase-kicker){margin:0 0 13px;font-size:13px;line-height:1.7}
-.extension-grid small{position:static;display:block;margin:auto 0 13px}
+.extension-grid small{position:static;display:block;margin:0 0 13px}
 
 /* laptop, tablet i mobitel: a two-by-two grid with one continuous centre divider */
 @media(max-width:1100px){

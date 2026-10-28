@@ -1,8 +1,16 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import sneakerUrl from './assets/models/reebok-sneaker.glb?url';
+import { loadHeel, buildHeel } from './heel-variants.js';
+
+// Still shots for "Istraži model", rendered from the same 3D sneaker (camera direction + label).
+const STILLS = [
+  // The model sits turned by .3 rad, so the side views follow it to stay a true profile.
+  { label: 'Bočno', direction: [Math.sin(.3), .2, Math.cos(.3)] },
+  { label: 'Tri četvrtine', direction: [-1.8, 1.4, 4.1] },
+  { label: 'Druga strana', direction: [-Math.sin(.3), .2, -Math.cos(.3)] },
+  { label: 'Odozgo', direction: [.02, 1, .25] }
+];
 
 // The licensed sample is explicitly separate from each catalog product's photo.
 export function initProductViewer(photoPanel) {
@@ -10,51 +18,131 @@ export function initProductViewer(photoPanel) {
   const viewport = photoPanel.querySelector('[data-shoe-viewport]');
   const fallback = photoPanel.querySelector('[data-shoe-photo]');
   const status = photoPanel.querySelector('[data-shoe-status]');
-  const controlsBar = photoPanel.querySelector('.shoe-viewer-controls');
-  const autoButton = photoPanel.querySelector('[data-shoe-auto]');
-  const resetButton = photoPanel.querySelector('[data-shoe-reset]');
+  const modeButtons = photoPanel.querySelectorAll('[data-shoe-mode]');
+  const gallery = photoPanel.querySelector('[data-shoe-gallery]');
+  const still = photoPanel.querySelector('[data-shoe-still]');
+  const thumbs = photoPanel.querySelector('[data-shoe-thumbs]');
   const hint = photoPanel.querySelector('[data-shoe-hint]');
-  const attribution = photoPanel.querySelector('.shoe-viewer-credit');
+  const caption = photoPanel.querySelector('[data-shoe-caption]');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let ready = false;
   let visible = false;
-  let renderer, camera, orbit, scene, frame;
+  let mode = '3d';
+  let renderer, camera, orbit, scene, frame, normalized, shadow;
   let started = false;
+  // The product on show: its colour (tint, null = black patent) and its name for labels.
+  let wanted = { tint: null, label: 'Högl lakirana salonka' };
+  let shown;
   let lastTime = 0;
-  let pointerStart;
 
   function render(time = performance.now()) {
     frame = undefined;
-    if (!ready || !visible || document.hidden) return;
+    if (!ready || !visible || mode !== '3d' || document.hidden) return;
     const delta = Math.min((time - lastTime) / 1000, .05);
     lastTime = time;
     orbit.update(delta);
+    // Same gentle float as the hero heel while it spins on its own.
+    if (orbit.autoRotate) normalized.position.y = Math.sin(time / 1000 * .85) * .05;
     renderer.render(scene, camera);
     if (orbit.autoRotate && !frame) frame = requestAnimationFrame(render);
   }
   function requestRender() {
     if (!frame) frame = requestAnimationFrame(render);
   }
-  function pauseAuto() {
-    if (orbit) orbit.autoRotate = false;
-    autoButton.setAttribute('aria-pressed', 'false');
-    autoButton.textContent = '↻ Auto';
+
+  // Narrow viewports (tablet, phone) pull the camera back so the side-on shoe never clips.
+  const baseDistance = Math.hypot(-1.8, 1.4, 4.1);
+  function fitDistance() {
+    camera.position.setLength(baseDistance * Math.max(1, 1.3 / camera.aspect));
   }
-  function resetView() {
-    pauseAuto();
-    orbit?.reset();
+
+  function setMode(next) {
+    mode = next;
+    modeButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.shoeMode === mode)));
+    viewport.hidden = mode !== '3d';
+    gallery.hidden = mode !== 'photos';
+    hint.textContent = mode === '3d' ? 'Strelicom drži proizvod i rotiraj' : 'Odaberi ugao';
+    caption.firstElementChild.textContent = mode === '3d' ? '3D / ILUSTRACIJA' : 'FOTOGRAFIJE / ILUSTRACIJA';
+    caption.lastElementChild.textContent = mode === '3d' ? '360°' : `${STILLS.length} UGLA`;
+    lastTime = performance.now();
+    requestRender();
+  }
+  modeButtons.forEach(button => button.addEventListener('click', () => setMode(button.dataset.shoeMode)));
+
+  function showStill(index) {
+    const shot = thumbs.children[index];
+    still.src = shot.querySelector('img').src;
+    still.alt = `${shown.label}, ${STILLS[index].label.toLowerCase()}`;
+    [...thumbs.children].forEach((thumb, i) => thumb.setAttribute('aria-pressed', String(i === index)));
+  }
+  // Render each still from the live scene, then put the camera back where it was.
+  function captureStills() {
+    const saved = camera.position.clone();
+    const savedY = normalized.position.y;
+    normalized.position.y = 0;
+    thumbs.innerHTML = '';
+    STILLS.forEach((shot, index) => {
+      camera.position.set(...shot.direction).setLength(saved.length());
+      camera.lookAt(orbit.target);
+      renderer.render(scene, camera);
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'shoe-viewer-thumb';
+      button.setAttribute('aria-label', shot.label);
+      button.innerHTML = `<img src="${renderer.domElement.toDataURL('image/png')}" alt="" />`;
+      button.addEventListener('click', () => showStill(index));
+      thumbs.append(button);
+    });
+    camera.position.copy(saved);
+    normalized.position.y = savedY;
+    orbit.update();
+    showStill(0);
+  }
+
+  // Show the heel as the selected product's variant (colour, heel height, buckle, finish), then refresh the still shots.
+  async function showModel(product) {
+    const gltf = await loadHeel();
+    if (product !== wanted) return; // a newer product was picked while this one loaded
+    if (normalized) scene.remove(normalized);
+    if (shadow) scene.remove(shadow);
+    const model = buildHeel(gltf, product);
+    model.position.set(0, 0, 0);
+    model.updateMatrixWorld(true);
+    const bounds = new THREE.Box3().setFromObject(model);
+    const dimensions = bounds.getSize(new THREE.Vector3());
+    model.position.sub(bounds.getCenter(new THREE.Vector3()));
+    normalized = new THREE.Group();
+    normalized.add(model);
+    normalized.scale.setScalar(3.5 / Math.max(dimensions.x, dimensions.y, dimensions.z));
+    normalized.rotation.y = -Math.PI / 2 + .3;
+    scene.add(normalized);
+    // Neutral studio shadow, drawn locally without another image request.
+    const shadowCanvas = document.createElement('canvas');
+    shadowCanvas.width = shadowCanvas.height = 128;
+    const ctx = shadowCanvas.getContext('2d');
+    const gradient = ctx.createRadialGradient(64, 64, 4, 64, 64, 64);
+    gradient.addColorStop(0, '#57463638');
+    gradient.addColorStop(1, '#57463600');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 128, 128);
+    shadow = new THREE.Mesh(new THREE.PlaneGeometry(3.8, 2.2), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(shadowCanvas), transparent: true, depthWrite: false }));
+    shadow.rotation.x = -Math.PI / 2;
+    shadow.position.y = -dimensions.y * normalized.scale.x / 2 - .08;
+    scene.add(shadow);
+    shown = product;
+    renderer.domElement.setAttribute('aria-label', `${product.label} u 3D prikazu koja se stalno okreće. Povuci mišem ili prstom za rotaciju; koristi strelice na tastaturi.`);
+    captureStills();
     requestRender();
   }
 
   function fail() {
     ready = false;
-    pauseAuto();
     if (frame) cancelAnimationFrame(frame);
     renderer?.dispose();
     renderer?.domElement.remove();
     photoPanel.classList.remove('show-3d');
     photoPanel.classList.add('show-photo-fallback');
-    controlsBar.hidden = true;
-    attribution.hidden = true;
+    modeButtons.forEach(button => { button.hidden = true; });
     hint.textContent = 'Fotografija proizvoda kao zamjena za nedostupan 3D prikaz';
     status.textContent = '3D prikaz nije dostupan. Prikazana je fotografija proizvoda.';
     status.hidden = false;
@@ -75,7 +163,7 @@ export function initProductViewer(photoPanel) {
       canvas.style.removeProperty('display');
       canvas.tabIndex = 0;
       canvas.setAttribute('role', 'img');
-      canvas.setAttribute('aria-label', 'Ilustrativna Reebok patika u 3D prikazu. Povuci mišem ili prstom za rotaciju; koristi strelice na tastaturi.');
+      canvas.setAttribute('aria-label', 'Ilustrativna Reebok patika u 3D prikazu koja se stalno okreće. Povuci mišem ili prstom za rotaciju; koristi strelice na tastaturi.');
       viewport.append(canvas);
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(35, 1, .1, 50);
@@ -87,9 +175,11 @@ export function initProductViewer(photoPanel) {
       orbit.rotateSpeed = .7;
       orbit.minPolarAngle = .15;
       orbit.maxPolarAngle = Math.PI - .15;
+      // Always turning: dragging takes over, releasing hands it back to the spin.
+      orbit.autoRotate = !reduceMotion;
       orbit.autoRotateSpeed = 1.6;
       orbit.addEventListener('change', requestRender);
-      orbit.addEventListener('start', pauseAuto);
+      orbit.addEventListener('end', () => { lastTime = performance.now(); requestRender(); });
       const pmrem = new THREE.PMREMGenerator(renderer);
       const room = new RoomEnvironment();
       const environment = pmrem.fromScene(room, .04);
@@ -101,37 +191,6 @@ export function initProductViewer(photoPanel) {
       key.position.set(3, 5, 4);
       scene.add(key);
 
-      const gltf = await new GLTFLoader().loadAsync(sneakerUrl);
-      const model = gltf.scene;
-      model.updateMatrixWorld(true);
-      const bounds = new THREE.Box3().setFromObject(model);
-      const dimensions = bounds.getSize(new THREE.Vector3());
-      const center = bounds.getCenter(new THREE.Vector3());
-      const normalized = new THREE.Group();
-      model.position.sub(center);
-      normalized.add(model);
-      normalized.scale.setScalar(3.5 / Math.max(dimensions.x, dimensions.y, dimensions.z));
-      normalized.rotation.y = -.25;
-      scene.add(normalized);
-      model.traverse(node => {
-        if (!node.isMesh) return;
-        const materials = Array.isArray(node.material) ? node.material : [node.material];
-        materials.forEach(material => { material.roughness = .85; material.metalness = 0; });
-      });
-      // Neutral studio shadow, drawn locally without another image request.
-      const shadowCanvas = document.createElement('canvas');
-      shadowCanvas.width = shadowCanvas.height = 128;
-      const ctx = shadowCanvas.getContext('2d');
-      const gradient = ctx.createRadialGradient(64, 64, 4, 64, 64, 64);
-      gradient.addColorStop(0, '#57463638');
-      gradient.addColorStop(1, '#57463600');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, 128, 128);
-      const shadow = new THREE.Mesh(new THREE.PlaneGeometry(3.8, 2.2), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(shadowCanvas), transparent: true, depthWrite: false }));
-      shadow.rotation.x = -Math.PI / 2;
-      shadow.position.y = -dimensions.y * normalized.scale.x / 2 - .08;
-      scene.add(shadow);
-
       function resize() {
         const width = viewport.clientWidth;
         const height = viewport.clientHeight;
@@ -139,40 +198,23 @@ export function initProductViewer(photoPanel) {
         renderer.setSize(width, height, false);
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
+        fitDistance();
         requestRender();
       }
       new ResizeObserver(resize).observe(viewport);
       resize();
-      orbit.saveState();
+      do { await showModel(wanted); } while (shown !== wanted); // product may change while loading
       ready = true;
       photoPanel.dataset.viewerReady = 'true';
-      autoButton.disabled = resetButton.disabled = false;
       photoPanel.classList.add('show-3d');
       status.hidden = true;
-      autoButton.addEventListener('click', () => {
-        orbit.autoRotate = !orbit.autoRotate;
-        autoButton.setAttribute('aria-pressed', String(orbit.autoRotate));
-        autoButton.textContent = orbit.autoRotate ? 'Ⅱ Pauza' : '↻ Auto';
-        lastTime = performance.now();
-        requestRender();
-      });
-      resetButton.addEventListener('click', resetView);
-      canvas.addEventListener('pointerdown', event => {
-        pointerStart = { x: event.clientX, y: event.clientY, dragged: false };
-      });
-      canvas.addEventListener('pointermove', event => {
-        if (!pointerStart) return;
-        pointerStart.dragged ||= Math.hypot(event.clientX - pointerStart.x, event.clientY - pointerStart.y) > 8;
-      });
-      canvas.addEventListener('click', () => {
-        if (!pointerStart?.dragged) resetView();
-        pointerStart = undefined;
-      });
+      modeButtons.forEach(button => { button.disabled = false; });
+      lastTime = performance.now();
+      requestRender();
       canvas.addEventListener('keydown', event => {
         const delta = { ArrowLeft: [-.18, 0], ArrowRight: [.18, 0], ArrowUp: [0, -.14], ArrowDown: [0, .14] }[event.key];
         if (!delta) return;
         event.preventDefault();
-        pauseAuto();
         const offset = camera.position.clone().sub(orbit.target);
         const spherical = new THREE.Spherical().setFromVector3(offset);
         spherical.theta += delta[0];
@@ -191,9 +233,14 @@ export function initProductViewer(photoPanel) {
   visibility.observe(viewport);
   document.addEventListener('visibilitychange', requestRender);
   return {
-    setPhoto(product) {
+    setProduct(product) {
       fallback.src = product.image;
       fallback.alt = `${product.brand} ženski model obuće`;
+      const next = { tint: product.tint, shape: product.shape, plain: product.plain, finish: product.finish, label: `${product.brand} ${product.name.toLowerCase()}` };
+      const same = (a, b) => ['tint', 'shape', 'plain', 'finish'].every(key => (a[key] || null) === (b[key] || null));
+      if (same(next, wanted)) { wanted.label = next.label; return; }
+      wanted = next;
+      if (ready) showModel(wanted).catch(fail);
     }
   };
 }

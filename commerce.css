@@ -9,14 +9,44 @@
 .experience h2{font-size:clamp(38px,3.4vw,56px);line-height:1.08;letter-spacing:-.02em}
 .experience-head>p{max-width:340px;margin:0 0 4px;line-height:1.75}
 
+/* Intro: on pc and wide the text + link sit vertically centered next to the heading */
+.intro-grid{align-items:center}
+.intro-grid>div{transform:translateY(clamp(5px,.5vw,8px))} /* optical: heading descenders (j, ž) pull its visual middle down */
+.intro-grid>div>p:first-child{margin-top:0}
+
+/* Insight cards (Otkrij / Odluči / Nastavi): on pc and wide only the dividers between them */
+.insight-grid{border-top:0;margin-top:140px}
+.insight-grid span{display:block;font-size:17px;line-height:1}
+.insight-grid h3{margin:15px 0 10px;line-height:1.1}
+.insight-grid p{margin:0 0 13px}
+
 @media(min-width:1600px){
   .experience-head{max-width:1440px;margin-inline:auto}
 }
 @media(max-width:1100px){
   .experience-head{grid-template-columns:minmax(0,1.75fr) minmax(225px,1fr);column-gap:28px}
+  .insight-grid{border-top:1px solid var(--line);margin-top:115px}
+  .intro-grid{align-items:end}
+  .intro-grid>div{transform:none}
+  .intro-grid>div>p:first-child{margin-top:17px}
 }
-@media(max-width:900px){
+@media(max-width:800px){
   .experience-head{grid-template-columns:1fr;gap:20px;align-items:start}
   .experience-head>p{max-width:520px;margin:0}
   .experience h2{font-size:clamp(36px,6vw,48px)}
+  .insight-grid{margin-top:72px}
 }
+
+/* ONLINE / STORE / CLUB follow Otkrij / Odluči / Nastavi on every screen: lines between items, no inner box,
+   same label, heading and text sizes. On pc and wide they sit in three columns with dividers between them. */
+.omni-cards{background:none;border-radius:0;overflow:visible}
+.omni-cards article{padding:26px 35px 0 0;background:none}
+.omni-cards article+article{border-left:1px solid #ffffff33;padding-left:35px}
+.omni-cards span{display:block;font-size:17px;line-height:1;letter-spacing:0;color:#ffc9c7}
+.omni-cards h3{font-size:27px;margin:15px 0 10px;line-height:1.1}
+.omni-cards p{font-size:13px;margin:0 0 13px;color:#f6cfcd}
+/* pc i wide: like Otkrij / Odluči / Nastavi, the three items run full width under the heading,
+   so the 27px headings stay on one or two lines instead of squeezing into the right half. */
+@media(min-width:1101px){.omni-grid{grid-template-columns:1fr;gap:0}.omni-cards{margin-top:72px}}
+@media(max-width:1100px){.omni-cards{border-top:1px solid #ffffff33}}
+@media(max-width:800px){.omni-cards article+article{border-left:0;border-top:1px solid #ffffff33;padding-left:0}}

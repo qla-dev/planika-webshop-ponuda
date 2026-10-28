@@ -1,0 +1,39 @@
+/* Planika AI conversation: product rows, choice chips and the shared-product message. */
+.ai-window .chat{max-height:440px;scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:#ffffff33 transparent}
+.ai-window{min-height:560px}
+.chat-choices{margin:0 0 14px}
+.chat-choices button:hover,.quick-replies button:hover{border-color:#fff}
+.chat-products{margin:0 0 14px}
+.chat-products-title{display:block;margin:2px 0 7px;font:500 9px 'DM Mono',monospace;letter-spacing:.12em;color:#98918b}
+.chat-products>div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;max-width:390px}
+.chat-product{display:flex;flex-direction:column;gap:3px;min-width:0;padding:7px 7px 9px;border:1px solid #ffffff1f;border-radius:4px;background:#2a2624;color:#f5f0e8;text-align:left;cursor:pointer;transition:border-color .2s,transform .2s}
+.chat-product:hover{border-color:var(--red);transform:translateY(-2px)}
+.chat-product img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:3px;margin-bottom:4px}
+.chat-product small{font:500 8px 'DM Mono',monospace;letter-spacing:.06em;color:#b3aaa2;text-transform:uppercase}
+.chat-product b{font-size:10px;font-weight:600;line-height:1.3}
+.chat-product span{margin-top:auto;padding-top:2px;font-size:10px;font-weight:800}
+.chat-shared{display:grid;gap:9px}
+.chat-shared p{margin:0}
+.chat-shared-product{display:flex;align-items:center;gap:9px;padding:6px;background:#ffffff26;border-radius:4px}
+.chat-shared-product img{width:46px;height:46px;object-fit:cover;border-radius:3px}
+.chat-shared-product div{display:grid;gap:2px}
+.chat-shared-product small{font:500 8px 'DM Mono',monospace;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
+.chat-shared-product b{font-size:11px}
+/* Chat rhythm on every screen: the shopper's red messages stand apart from what comes before and after them. */
+.ai-window .chat{padding-inline:6px}
+.ai-window .bubble{margin-bottom:16px;line-height:1.6}
+.ai-window .bubble.user{margin:26px 0 26px auto;padding:15px 19px}
+.ai-window .quick-replies{margin-bottom:24px}
+.chat-products{margin-bottom:22px}
+.chat-shared{gap:13px}
+.chat-shared-product{padding:8px}
+/* pc i wide: the chat lines up with the text column on its left. Its top meets the "04 / PLANIKA AI" label and
+   its red shadow ends on the last line of the list. The messages scroll inside, so the window never grows the section. */
+@media(min-width:1101px){
+  .ai-section{align-items:stretch}
+  .ai-window{align-self:stretch;margin-bottom:12px;min-height:0}
+  .ai-window .chat{contain:size;flex:1 1 0;min-height:0;max-height:none}
+}
+/* mobitel: the same rhythm, a little tighter. */
+@media(max-width:540px){.ai-window .bubble{margin-bottom:13px}.ai-window .bubble.user{margin:20px 0 20px auto;padding:13px 15px}.ai-window .quick-replies{margin-bottom:20px}.chat-products{margin-bottom:18px}}@media(max-width:540px){.ai-window .chat{max-height:420px}.chat-products>div{gap:5px}.chat-product{padding:5px 5px 7px}.chat-product b,.chat-product span{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.ai-window .chat{scroll-behavior:auto}.chat-product{transition:none}}

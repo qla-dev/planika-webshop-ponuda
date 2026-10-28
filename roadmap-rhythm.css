@@ -1,0 +1,13 @@
+/* 08 / Struktura projekta follows Otkrij / Odluči / Nastavi: the same number, heading and text sizes
+   and the same spacing (26px above the content, 13px under the text, 15px / 10px around the heading). */
+.phase-list article{grid-template-columns:60px 1.05fr .8fr;padding:26px 0 13px}
+.phase-no{font:400 17px/1 'DM Mono',monospace;color:var(--red)}
+.phase-list h3{margin:15px 0 10px;font-size:27px;line-height:1.1}
+.phase-list article>div>p:not(.phase-kicker){margin:0 0 13px;font-size:13px}
+.phase-list ul{margin:0 0 13px}
+.phase-list li:first-child{padding-top:0}
+
+/* tablet i mobitel: number above the kicker line, list under the text */
+@media(max-width:800px){
+  .phase-list article{grid-template-columns:40px 1fr;gap:16px}
+}

@@ -1,20 +1,31 @@
 .example-product-photo{gap:12px}
 .shoe-viewer-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.shoe-viewer-badge{padding:5px 8px;background:#211e1b;color:#fff;font:8px/1.4 'DM Mono',monospace;letter-spacing:.05em;white-space:nowrap}
+/* Mode switch: "Istraži model" (stills) / "Interaktivni 3D / 360°"; the active one is the dark badge */
+.shoe-viewer-mode{padding:5px 8px;border:0;background:transparent;color:#776c61;font:8px/1.4 'DM Mono',monospace;letter-spacing:.05em;white-space:nowrap;cursor:pointer}
+.shoe-viewer-mode:hover{color:#211e1b}
+.shoe-viewer-mode[aria-pressed='true']{background:#211e1b;color:#fff}
+.shoe-viewer-mode:disabled{opacity:.45;cursor:default}
+.shoe-viewer-mode[hidden]{display:none}
 .shoe-viewer-viewport{position:relative;width:100%;height:265px;min-height:220px;isolation:isolate}
+.shoe-viewer-viewport[hidden]{display:none}
 .shoe-viewer-viewport>[data-shoe-photo]{display:none;width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;transform:rotate(-7deg);padding:12px}
 .shoe-viewer-canvas{position:absolute;inset:0;width:100%;height:100%;display:none;cursor:grab;touch-action:none}
 .shoe-viewer-canvas:active{cursor:grabbing}
 .show-3d .shoe-viewer-canvas{display:block}
 .show-photo-fallback [data-shoe-photo]{display:block}
 .shoe-viewer-status{position:absolute;left:8px;right:8px;bottom:4px;padding:8px;background:#fffdf9e8;text-align:center;font-size:9px;color:#766759}
-.shoe-viewer-controls{display:flex;align-items:center;justify-content:center;gap:8px}
-.shoe-viewer-controls[hidden],.shoe-viewer-status[hidden],.shoe-viewer-credit[hidden]{display:none}
-.shoe-viewer-controls button{display:flex;align-items:center;justify-content:center;gap:5px;min-height:30px;border:1px solid #cfc3b4;background:transparent;padding:6px 11px;font-size:9px;color:#5e5043}
-.shoe-viewer-controls button:hover,.shoe-viewer-controls [aria-pressed='true']{border-color:#75604c;background:#e4dacd}
-.shoe-viewer-controls button:disabled{opacity:.45}
+.shoe-viewer-status[hidden],.shoe-viewer-credit[hidden]{display:none}
+/* Stills gallery: same total height as the 3D viewport so the card doesn't jump */
+.shoe-viewer-gallery{display:grid;grid-template-rows:1fr auto;gap:8px;height:265px}
+.shoe-viewer-gallery[hidden]{display:none}
+.shoe-viewer-still{width:100%;height:100%;min-height:0;object-fit:contain}
+.shoe-viewer-thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.shoe-viewer-thumb{height:46px;padding:2px;border:1px solid #d8cdbf;background:#f4efe8;cursor:pointer}
+.shoe-viewer-thumb img{width:100%;height:100%;object-fit:contain;display:block}
+.shoe-viewer-thumb:hover,.shoe-viewer-thumb[aria-pressed='true']{border-color:#211e1b}
 .shoe-viewer-hint{margin:0;text-align:center;font-size:8px;color:#776c61;line-height:1.6}
 .shoe-viewer-credit{margin:0;text-align:center;font:7px/1.6 'DM Mono',monospace;color:#7a6c5d}
 .shoe-viewer-credit a{color:inherit;text-underline-offset:2px}
 .example-product-photo .example-photo-caption{margin-top:auto;padding-top:4px}
-@media(max-width:540px){.shoe-viewer-viewport{height:245px}.shoe-viewer-top{gap:7px}.shoe-viewer-badge{font-size:7px;padding:6px}.shoe-viewer-controls button{min-height:36px;padding:8px 13px}.shoe-viewer-hint{font-size:9px}.shoe-viewer-credit{font-size:8px}}
+@media(max-width:1100px){.shoe-viewer-mode{white-space:normal;text-align:right}.shoe-viewer-mode:first-child{text-align:left}}
+@media(max-width:540px){.shoe-viewer-viewport,.shoe-viewer-gallery{height:245px}.shoe-viewer-top{gap:7px}.shoe-viewer-mode{font-size:7px;padding:6px}.shoe-viewer-thumb{height:40px}.shoe-viewer-hint{font-size:9px}.shoe-viewer-credit{font-size:8px}}

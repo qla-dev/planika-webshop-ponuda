@@ -1,0 +1,33 @@
+/* Large faded Planika logo in the closing card. brand-planika-mark.png is the logo trimmed to its letters
+   (1762 × 506, 3.48 times wider than tall), so the box below is exactly the visible logo.
+   It never runs behind the heading, the text or the button. */
+.outro-card{--mark-h:calc(var(--mark-w) / 3.48)}
+.outro-mark{right:var(--mark-right);bottom:var(--mark-bottom,0);width:var(--mark-w);height:auto;z-index:2}
+
+/* laptop, pc i wide: the logo fills the empty band right of the button. It starts level with the button's top edge,
+   runs 80px after the button out to the footer's right margin ("Nazad na vrh", 5vw), and reaches down into the footer,
+   ending ~34px above its text (section padding 44px + 15px into the footer = 59px under the card).
+   Width = (100vw - 5vw) - (7vw + 7vw + 264px button + 80px gap). The card keeps just enough room under the button. */
+@media(min-width:801px){
+  .outro{padding-bottom:44px}
+  .outro-card{overflow:visible;--mark-w:calc(81vw - 344px);--mark-right:-2vw;--mark-bottom:-59px;padding-bottom:max(0px,calc(var(--mark-h) - 119px))}
+}
+/* laptop: a smaller 48px gap after the button, so the logo stays big enough on the narrower screen. */
+@media(min-width:801px) and (max-width:1100px){
+  .outro-card{--mark-w:calc(81vw - 312px)}
+}
+
+/* tablet: like laptop and pc, the logo sits right of the button, starting level with its top edge.
+   Here the footer is a column, so the logo ends with the card, 40px above the footer.
+   Width = card (100vw - 2 × 4vw) - 8vw padding - 264px button - ~36px gap; it runs out to the card's right edge.
+   When it is shorter than the button (narrow tablets) it lines up with the button's bottom edge. */
+@media(max-width:800px){
+  .outro{padding-bottom:40px}
+  .outro-card{--mark-w:calc(84vw - 312px);--mark-right:0px;padding-bottom:max(0px,calc(var(--mark-h) - 60px))}
+  .outro-mark{bottom:0}
+}
+@media(max-width:540px){
+  .outro{padding-bottom:28px}
+  .outro-card{--mark-w:76vw;--mark-right:8vw;padding-bottom:calc(var(--mark-h) + 72px)}
+  .outro-mark{bottom:32px}
+}

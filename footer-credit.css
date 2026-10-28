@@ -1,0 +1,7 @@
+/* Footer credit: "WEBSHOP RECONSTRUCTION CONCEPT /" followed by the qla.dev logo, which links to qla.dev.
+   The logo is as tall as the line (cap height of the 10px DM Mono text plus the "q" descender). */
+.foot-credit{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
+.qla-logo{display:inline-flex;align-items:center;transition:opacity .2s}
+.qla-logo img{display:block;width:auto;height:16px}
+.qla-logo:hover{opacity:.75}
+.qla-logo:focus-visible{outline:2px solid #0095f8;outline-offset:4px;border-radius:2px}

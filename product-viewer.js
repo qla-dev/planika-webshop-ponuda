@@ -50,8 +50,8 @@ export function initProductViewer(photoPanel) {
     if (!frame) frame = requestAnimationFrame(render);
   }
 
-  // Narrow viewports (tablet, phone) pull the camera back so the side-on shoe never clips.
-  const baseDistance = Math.hypot(-1.8, 1.4, 4.1);
+  // Keep the full rotating heel visible on desktop and wide screens; narrow viewports pull back further.
+  const baseDistance = Math.hypot(-1.8, 1.4, 4.1) * 1.3;
   function fitDistance() {
     camera.position.setLength(baseDistance * Math.max(1, 1.3 / camera.aspect));
   }

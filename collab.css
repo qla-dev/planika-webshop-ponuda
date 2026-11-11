@@ -7,17 +7,12 @@
 @media(max-width:800px){
   .topline{flex-wrap:nowrap;gap:8px}
   .topline>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
-  .hero-actions{gap:14px}
-  .hero-actions .button{padding:14px 16px;font-size:11px;white-space:nowrap}
-  .hero-actions .text-button{font-size:11px;white-space:nowrap}
+  .hero-actions{flex-direction:column;align-items:flex-start;gap:18px}
 }
 @media(max-width:540px){
   .topline-qla,.topline-bonaco{height:9px}
   .topline-logos{gap:5px}
   .topline-x{font-size:8px}
-  .hero-actions{gap:10px}
-  .hero-actions .button{padding:12px 14px;font-size:10px}
-  .hero-actions .text-button{font-size:10px}
 }
 
 .collab{background:var(--ink);padding:100px 7vw}
